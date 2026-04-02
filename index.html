@@ -106,7 +106,8 @@
 
 <div class="search-header">
   <div class="search-bar-row">
-    <input type="text" id="pokeInput" oninput="resetAndFilter()" placeholder="例：さいばい、あかるい、キュート🐾">
+    <input type="text" id="pokeInput" oninput="resetAndFilter()" onkeypress="if(event.key==='Enter'){resetAndFilter()} "placeholder="例：さいばい、あかるい、キュート🐾">
+
     <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
   </div>
   <div class="controls">
@@ -301,9 +302,13 @@ function switchLang() {
 function resetAndFilter() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const sourceData = (lang === 'jp') ? dataJp : dataEn;
-  const input = document.getElementById("pokeInput").value.toLowerCase();
-  const textKeywords = input.split(/[\s　]+/).filter(k => k !== "");
-  const allKeywords = [...textKeywords, ...Array.from(selectedTags)];
+  const inputEl = document.getElementById("pokeInput");
+const input = inputEl ? inputEl.value.toLowerCase() : "";
+  const textKeywords = input
+  .replace(/、|,/g, " ")
+  .split(/[\s　]+/)
+  .filter(k => k !== "");
+  const allKeywords = [...new Set([...textKeywords, ...selectedTags])];
   const mode = document.querySelector('input[name="mode"]:checked').value;
 
   if (allKeywords.length === 0) {
@@ -317,11 +322,23 @@ function resetAndFilter() {
     });
   }
 
-  displayedCount = 0;
-  document.getElementById('pokeBody').innerHTML = '';
-  displayNextBatch(); 
+displayedCount = 0;
+document.getElementById('pokeBody').innerHTML = '';
+
+if (currentFilteredData.length === 0) {
+  const lang = document.querySelector('input[name="lang"]:checked').value;
+  const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
+
+  document.getElementById('status').innerText = noResultText;
+  document.getElementById('status').style.display = 'block';
+  document.getElementById('loadMoreBtn').style.display = 'none';
+  return;
+} else {
+  document.getElementById('status').style.display = 'none';
 }
 
+displayNextBatch();
+}
 function displayNextBatch() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const currentConfig = config[lang];
