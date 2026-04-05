@@ -109,7 +109,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="search-header">
   <div class="search-bar-row">
-    <input type="text" id="pokeInput" oninput="resetAndFilter()" onkeypress="if(event.key==='Enter'){resetAndFilter()} "placeholder="例：さいばい、あかるい、キュート🐾">
+    <input type="text" id="pokeInput" 
+  oninput="resetAndFilter(); reportToGTM(this.value)" 
+  onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" 
+  placeholder="例：さいばい、あかるい、キュート🐾">
 
     <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
   </div>
@@ -362,6 +365,30 @@ function displayNextBatch() {
 }
 
 window.onload = loadData;
+
+let searchTimer;
+function reportToGTM(val, isImmediate = false) {
+  // すでに動いているタイマーをリセット
+  clearTimeout(searchTimer);
+  
+  if (!val) return; // 空文字なら送らない
+
+  const sendData = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'search_performed', // 新しいイベント名
+      'search_term': val
+    });
+  };
+
+  if (isImmediate) {
+    // Enterキーが押されたら即座に送信
+    sendData();
+  } else {
+    // 入力が止まってから1.5秒後に送信（打ち間違いを何度も送らないため）
+    searchTimer = setTimeout(sendData, 1500);
+  }
+}
 </script>
 </body>
 </html>
