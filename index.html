@@ -80,32 +80,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
     footer p { margin: 4px 0; }
 
-/* 電光掲示板のスタイル */
+/* 電光掲示板：白背景・黒文字バージョン */
 .news-banner {
   width: 100%;
   overflow: hidden;
-  background: #333; /* 暗めの背景で電光掲示板風 */
+  background: #ffffff; /* 白背景 */
   padding: 8px 0;
   margin-bottom: 0;
-  border-bottom: 2px solid #5abfb7;
+  border-bottom: 1px solid #5abfb7; /* 下線だけ色をつけるとかわいいです */
 }
 
 #news-container {
   display: inline-block;
   white-space: nowrap;
-  padding-left: 100%; /* 右端から開始 */
-  animation: scroll-left 25s linear infinite; /* 25秒でループ */
+  padding-left: 100%;
+  animation: scroll-left 25s linear infinite;
 }
 
 #news-link {
-  color: #fff;
+  color: #333333; /* 黒文字 */
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
 }
 
 #news-link:hover {
-  color: #ffcc00; /* ホバー時にオレンジ色に */
+  color: #5abfb7; /* 触った時だけツールのテーマカラーに */
   text-decoration: underline;
 }
 
@@ -113,7 +113,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
 }
-
   </style>
 </head>
 <body>
@@ -265,7 +264,6 @@ const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=o
 
 async function loadData() {
   try {
-    // 3つのシート（日本版、英語版、お知らせ）を同時に取得
     const [resJp, resEn, resNews] = await Promise.all([
       fetch(urlJp).then(r => r.text()), 
       fetch(urlEn).then(r => r.text()),
@@ -275,24 +273,33 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // ★お知らせを画面に反映
-    const newsRows = parseCSV(resNews);
-    if (newsRows && newsRows.length > 0) {
-      // newsシートの 1行目・A列(0番目)が文字、B列(1番目)がURL
-      const text = newsRows[0][0]; 
-      const link = newsRows[0][1]; 
-      
-      const textEl = document.getElementById('news-text');
-      const linkEl = document.getElementById('news-link');
-      
-      if (text) textEl.innerText = text;
-      if (link && link !== "") {
-        linkEl.href = link;
-      } else {
-        // URLが空の場合はクリックできないようにするか、リンクを無効化
-        linkEl.removeAttribute('href');
-        linkEl.style.cursor = 'default';
+    // お知らせの反映（エラーが起きても図鑑本体を止めないように try-catch で囲む）
+    try {
+      const newsRows = parseCSV(resNews);
+      if (newsRows && newsRows.length > 0) {
+        const text = newsRows[0][0]; // A1セルの文字
+        const link = newsRows[0][1]; // B1セルのURL
+        
+        const textEl = document.getElementById('news-text');
+        const linkEl = document.getElementById('news-link');
+        
+        if (text) {
+          textEl.innerText = text;
+        } else {
+          // 文字が空なら掲示板自体を隠す
+          document.querySelector('.news-banner').style.display = 'none';
+        }
+        
+        if (link && link.startsWith('http')) {
+          linkEl.href = link;
+        } else {
+          linkEl.removeAttribute('href');
+          linkEl.style.cursor = 'default';
+        }
       }
+    } catch (newsError) {
+      console.warn("お知らせの読み込みに失敗しましたが、図鑑は続行します:", newsError);
+      document.querySelector('.news-banner').style.display = 'none';
     }
 
     document.getElementById('status').style.display = 'none';
