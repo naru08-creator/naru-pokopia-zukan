@@ -275,39 +275,34 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // --- お知らせ反映処理（ここを強化しました） ---
-    try {
-      const newsRows = parseCSV(resNews);
-      
-      // データが存在するか、かつ1行目に中身があるか厳密にチェック
-      if (newsRows && newsRows.length > 0 && newsRows[0].length > 0) {
-        const text = newsRows[0][0]; // A1セルの文字
-        const link = newsRows[0][1]; // B1セルのURL
-        
-        const textEl = document.getElementById('news-text');
-        const linkEl = document.getElementById('news-link');
-        
-        if (text && text.trim() !== "") {
-          textEl.innerText = text;
-          // URLのチェック
-          if (link && link.startsWith('http')) {
-            linkEl.href = link;
-          } else {
-            linkEl.removeAttribute('href');
-            linkEl.style.cursor = 'default';
-          }
-        } else {
-          // A1が空文字ならバナーを消す
-          document.querySelector('.news-banner').style.display = 'none';
-        }
+// --- お知らせ反映処理 ---
+try {
+  const newsRows = resNews.trim().split("\n").map(r => r.split(","));
+
+  if (newsRows.length > 0) {
+    const text = newsRows[0][0];
+    const link = newsRows[0][1];
+
+    const textEl = document.getElementById('news-text');
+    const linkEl = document.getElementById('news-link');
+
+    if (text && text.trim() !== "") {
+      textEl.innerText = text;
+
+      if (link && link.startsWith('http')) {
+        linkEl.href = link;
       } else {
-        // データ自体が取れなかったらバナーを消す
-        document.querySelector('.news-banner').style.display = 'none';
+        linkEl.removeAttribute('href');
       }
-    } catch (newsError) {
-      console.warn("お知らせの解析に失敗:", newsError);
+    } else {
       document.querySelector('.news-banner').style.display = 'none';
     }
+  } else {
+    document.querySelector('.news-banner').style.display = 'none';
+  }
+} catch (e) {
+  console.warn("ニュース失敗", e);
+}
     // ------------------------------------------
 
     document.getElementById('status').style.display = 'none';
