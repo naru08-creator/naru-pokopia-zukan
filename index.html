@@ -79,6 +79,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     
     footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
     footer p { margin: 4px 0; }
+
+/* 電光掲示板のスタイル */
+.news-banner {
+  width: 100%;
+  overflow: hidden;
+  background: #333; /* 暗めの背景で電光掲示板風 */
+  padding: 8px 0;
+  margin-bottom: 0;
+  border-bottom: 2px solid #5abfb7;
+}
+
+#news-container {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%; /* 右端から開始 */
+  animation: scroll-left 25s linear infinite; /* 25秒でループ */
+}
+
+#news-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#news-link:hover {
+  color: #ffcc00; /* ホバー時にオレンジ色に */
+  text-decoration: underline;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
   </style>
 </head>
 <body>
@@ -104,7 +139,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="links">
   <a href="https://narunikki.hatenablog.com/entry/pokopiazukan">▶ このツールの解説</a>
-  <a href="https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3">▶ ゲーム攻略記事</a>
+  <a href="https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3">▶ ぽこあポケモン記事一覧</a>
+</div>
+
+<div class="news-banner">
+  <div id="news-container">
+    <a id="news-link" href="#" target="_blank">
+      <span id="news-text">最新情報を読み込み中...🐾</span>
+    </a>
+  </div>
 </div>
 
 <div class="search-header">
@@ -217,14 +260,48 @@ function parseCSV(csvText) {
   return rows.slice(1);
 }
 
+// お知らせシート(news)のURL（GID: 17811907 を反映済み）
+const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=17811907`;
+
 async function loadData() {
   try {
-    const [resJp, resEn] = await Promise.all([fetch(urlJp).then(r => r.text()), fetch(urlEn).then(r => r.text())]);
-    dataJp = parseCSV(resJp); dataEn = parseCSV(resEn);
+    // 3つのシート（日本版、英語版、お知らせ）を同時に取得
+    const [resJp, resEn, resNews] = await Promise.all([
+      fetch(urlJp).then(r => r.text()), 
+      fetch(urlEn).then(r => r.text()),
+      fetch(urlNews).then(r => r.text())
+    ]);
+
+    dataJp = parseCSV(resJp); 
+    dataEn = parseCSV(resEn);
+
+    // ★お知らせを画面に反映
+    const newsRows = parseCSV(resNews);
+    if (newsRows && newsRows.length > 0) {
+      // newsシートの 1行目・A列(0番目)が文字、B列(1番目)がURL
+      const text = newsRows[0][0]; 
+      const link = newsRows[0][1]; 
+      
+      const textEl = document.getElementById('news-text');
+      const linkEl = document.getElementById('news-link');
+      
+      if (text) textEl.innerText = text;
+      if (link && link !== "") {
+        linkEl.href = link;
+      } else {
+        // URLが空の場合はクリックできないようにするか、リンクを無効化
+        linkEl.removeAttribute('href');
+        linkEl.style.cursor = 'default';
+      }
+    }
+
     document.getElementById('status').style.display = 'none';
     document.getElementById('pokeTable').style.display = 'table';
     switchLang();
-  } catch (e) { document.getElementById('status').innerText = 'エラー🐾'; }
+  } catch (e) { 
+    document.getElementById('status').innerText = 'エラー🐾'; 
+    console.error("データの読み込みに失敗しました:", e);
+  }
 }
 
 function initFilterButtons(lang) {
