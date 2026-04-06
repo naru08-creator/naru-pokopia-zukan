@@ -265,6 +265,7 @@ function parseCSV(csvText) {
 
 async function loadData() {
   try {
+    // 3つのデータを取得
     const [resJp, resEn, resNews] = await Promise.all([
       fetch(urlJp).then(r => r.text()), 
       fetch(urlEn).then(r => r.text()),
@@ -274,33 +275,40 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // お知らせの反映
+    // --- お知らせ反映処理（ここを強化しました） ---
     try {
       const newsRows = parseCSV(resNews);
-      if (newsRows && newsRows.length > 0) {
+      
+      // データが存在するか、かつ1行目に中身があるか厳密にチェック
+      if (newsRows && newsRows.length > 0 && newsRows[0].length > 0) {
         const text = newsRows[0][0]; // A1セルの文字
         const link = newsRows[0][1]; // B1セルのURL
         
         const textEl = document.getElementById('news-text');
         const linkEl = document.getElementById('news-link');
         
-        if (text) {
+        if (text && text.trim() !== "") {
           textEl.innerText = text;
+          // URLのチェック
+          if (link && link.startsWith('http')) {
+            linkEl.href = link;
+          } else {
+            linkEl.removeAttribute('href');
+            linkEl.style.cursor = 'default';
+          }
         } else {
+          // A1が空文字ならバナーを消す
           document.querySelector('.news-banner').style.display = 'none';
         }
-        
-        if (link && link.startsWith('http')) {
-          linkEl.href = link;
-        } else {
-          linkEl.removeAttribute('href');
-          linkEl.style.cursor = 'default';
-        }
+      } else {
+        // データ自体が取れなかったらバナーを消す
+        document.querySelector('.news-banner').style.display = 'none';
       }
     } catch (newsError) {
-      console.warn("お知らせの読み込みに失敗:", newsError);
+      console.warn("お知らせの解析に失敗:", newsError);
       document.querySelector('.news-banner').style.display = 'none';
     }
+    // ------------------------------------------
 
     document.getElementById('status').style.display = 'none';
     document.getElementById('pokeTable').style.display = 'table';
