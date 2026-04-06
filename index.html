@@ -188,9 +188,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script>
+// 1. まず共通のIDを定義
 const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
+
+// 2. その後に各URLを定義（順番が大事です！）
 const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0`;
 const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471`;
+const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=17811907`;
 
 let dataJp = [];
 let dataEn = [];
@@ -259,9 +263,6 @@ function parseCSV(csvText) {
   return rows.slice(1);
 }
 
-// お知らせシート(news)のURL（GID: 17811907 を反映済み）
-const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=17811907`;
-
 async function loadData() {
   try {
     const [resJp, resEn, resNews] = await Promise.all([
@@ -273,7 +274,7 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // お知らせの反映（エラーが起きても図鑑本体を止めないように try-catch で囲む）
+    // お知らせの反映
     try {
       const newsRows = parseCSV(resNews);
       if (newsRows && newsRows.length > 0) {
@@ -286,7 +287,6 @@ async function loadData() {
         if (text) {
           textEl.innerText = text;
         } else {
-          // 文字が空なら掲示板自体を隠す
           document.querySelector('.news-banner').style.display = 'none';
         }
         
@@ -298,7 +298,7 @@ async function loadData() {
         }
       }
     } catch (newsError) {
-      console.warn("お知らせの読み込みに失敗しましたが、図鑑は続行します:", newsError);
+      console.warn("お知らせの読み込みに失敗:", newsError);
       document.querySelector('.news-banner').style.display = 'none';
     }
 
@@ -307,10 +307,11 @@ async function loadData() {
     switchLang();
   } catch (e) { 
     document.getElementById('status').innerText = 'エラー🐾'; 
-    console.error("データの読み込みに失敗しました:", e);
+    console.error("データの読み込み失敗:", e);
   }
 }
 
+// 以下、他の関数（initFilterButtons, toggleTag...等）は変更なしでOKです
 function initFilterButtons(lang) {
   const container = document.getElementById('filterButtons');
   container.innerHTML = "";
@@ -393,7 +394,7 @@ function resetAndFilter() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const sourceData = (lang === 'jp') ? dataJp : dataEn;
   const inputEl = document.getElementById("pokeInput");
-const input = inputEl ? inputEl.value.toLowerCase() : "";
+  const input = inputEl ? inputEl.value.toLowerCase() : "";
   const textKeywords = input
   .replace(/、|,/g, " ")
   .split(/[\s　]+/)
@@ -412,23 +413,24 @@ const input = inputEl ? inputEl.value.toLowerCase() : "";
     });
   }
 
-displayedCount = 0;
-document.getElementById('pokeBody').innerHTML = '';
+  displayedCount = 0;
+  document.getElementById('pokeBody').innerHTML = '';
 
-if (currentFilteredData.length === 0) {
-  const lang = document.querySelector('input[name="lang"]:checked').value;
-  const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
+  if (currentFilteredData.length === 0) {
+    const lang = document.querySelector('input[name="lang"]:checked').value;
+    const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
 
-  document.getElementById('status').innerText = noResultText;
-  document.getElementById('status').style.display = 'block';
-  document.getElementById('loadMoreBtn').style.display = 'none';
-  return;
-} else {
-  document.getElementById('status').style.display = 'none';
+    document.getElementById('status').innerText = noResultText;
+    document.getElementById('status').style.display = 'block';
+    document.getElementById('loadMoreBtn').style.display = 'none';
+    return;
+  } else {
+    document.getElementById('status').style.display = 'none';
+  }
+
+  displayNextBatch();
 }
 
-displayNextBatch();
-}
 function displayNextBatch() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const currentConfig = config[lang];
@@ -452,27 +454,19 @@ window.onload = loadData;
 
 let searchTimer;
 function reportToGTM(val, isImmediate = false) {
-  // すでに動いているタイマーをリセット
   clearTimeout(searchTimer);
-  
-  if (!val) return; // 空文字なら送らない
-
+  if (!val) return;
   const sendData = () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event': 'search_performed', // 新しいイベント名
+      'event': 'search_performed',
       'search_term': val
     });
   };
-
   if (isImmediate) {
-    // Enterキーが押されたら即座に送信
     sendData();
   } else {
-    // 入力が止まってから1.5秒後に送信（打ち間違いを何度も送らないため）
     searchTimer = setTimeout(sendData, 1500);
   }
 }
 </script>
-</body>
-</html>
