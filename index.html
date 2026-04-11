@@ -15,7 +15,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
   
     <style>
-    /* かわいい丸文字系システムフォントを優先 */
     body { 
       font-family: "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "ヒラギノ丸ゴ Pro W4", "UD Shin Maru Go Regular", "Yu Gothic", "Meiryo", sans-serif;
       margin: 0; padding: 0; background: #f3f7f6; color: #333; overflow-x: hidden; 
@@ -24,7 +23,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     h1 { color: #6fcac3; text-align: center; margin: 15px 0 5px; font-size: 22px; }
     .description { text-align: center; font-size: 13px; color: #666; margin-bottom: 10px; padding: 0 10px; }
     
-    /* リンクエリア */
     .links { text-align: center; margin-bottom: 15px; }
     .links a { display: inline-block; margin: 5px 8px; font-size: 13px; color: #5abfb7; text-decoration: none; font-weight: bold; }
     .links a:hover { text-decoration: underline; }
@@ -38,24 +36,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
     .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 15px; background: #eee; border: 1px solid #ddd; }
     .mode-switch input:checked + label, .lang-switch input:checked + label { background: #5abfb7; color: white; border-color: #5abfb7; }
-    .mode-switch input, .lang-switch input { display: none; }
+    .mode-switch input { display: none; }
+    .lang-switch input { display: none; }
     
     #activeFilters { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .filter-tag { background: #5abfb7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; cursor: pointer; }
     
-    /* サイドメニュー（ドロワー） */
     #drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #fff; z-index: 2000; transition: 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.2); overflow-y: auto; padding: 20px; box-sizing: border-box; visibility: hidden; }
     #drawer.open { right: 0; visibility: visible; }
     #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
     
-    /* 分類タイトル */
     .main-category-title { background: #f0f8f7; color: #5abfb7; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 25px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #5abfb7; }
     .sub-category-title { font-weight: bold; margin: 15px 0 8px; border-left: 4px solid #5abfb7; padding-left: 8px; font-size: 12px; color: #555; }
     .btn-grid { display: flex; flex-wrap: wrap; gap: 4px; }
     .tag-btn { padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; background: #fff; font-size: 11px; cursor: pointer; }
     .tag-btn.active { background: #5abfb7; color: #fff; border-color: #5abfb7; }
     
-    /* テーブルスタイル */
     .container { padding: 8px; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th { background: #5abfb7; color: white; padding: 10px; text-align: left; font-size: 13px; }
@@ -78,13 +74,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
     footer p { margin: 4px 0; }
 
-/* 電光掲示板：白背景・黒文字バージョン */
 .news-banner {
   width: 100%;
   overflow: hidden;
   background: #ffffff; 
   padding: 8px 0;
-  margin-bottom: 0;
   border-bottom: 1px solid #5abfb7;
 }
 
@@ -92,7 +86,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   display: inline-block;
   white-space: nowrap;
   padding-left: 100%;
-  animation: scroll-left 35s linear infinite; /* 2件用に少しゆっくり */
+  animation: scroll-left 35s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -100,24 +94,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   to { transform: translateX(-100%); }
 }
 
-/* ニュース内のリンクスタイル */
-#news-container a {
-  color: #333333;
-  text-decoration: none;
+#news-container span, #news-container a {
+  display: inline-block;
   font-size: 14px;
   font-weight: bold;
+  color: #333;
+  text-decoration: none;
 }
-
-#news-container a:hover {
-  color: #5abfb7;
-  text-decoration: underline;
-}
+#news-container a:hover { color: #5abfb7; text-decoration: underline; }
   </style>
 </head>
 <body>
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P58Q7SGR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 <div id="drawer">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <b id="menuTitle" style="color:#5abfb7;">絞り込み検索</b>
@@ -139,18 +130,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div class="news-banner">
-  <div id="news-container">
-    最新情報を読み込み中...🐾
-  </div>
+  <div id="news-container">最新情報を読み込み中...🐾</div>
 </div>
 
 <div class="search-header">
   <div class="search-bar-row">
-    <input type="text" id="pokeInput" 
-  oninput="resetAndFilter(); reportToGTM(this.value)" 
-  onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" 
-  placeholder="例：さいばい、あかるい、キュート🐾">
-
+    <input type="text" id="pokeInput" oninput="resetAndFilter(); reportToGTM(this.value)" onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" placeholder="読み込み中...🐾">
     <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
   </div>
   <div class="controls">
@@ -183,10 +168,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script>
-// 1. まず共通のIDを定義
 const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
-
-// 2. その後に各URLを定義
 const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0`;
 const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471`;
 const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=17811907`;
@@ -232,36 +214,11 @@ const config = {
   en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
 };
 
-// CSVを配列に変換する共通関数
-function parseCSV(csvText, skipHeader = true) {
-  const rows = [];
-  let currentField = "";
-  let inQuotes = false;
-  let currentRow = [];
-  for (let i = 0; i < csvText.length; i++) {
-    const char = csvText[i];
-    const nextChar = csvText[i + 1];
-    if (inQuotes) {
-      if (char === '"' && nextChar === '"') { currentField += '"'; i++; }
-      else if (char === '"') { inQuotes = false; }
-      else { currentField += char; }
-    } else {
-      if (char === '"') { inQuotes = true; }
-      else if (char === ',') { currentRow.push(currentField.trim()); currentField = ""; }
-      else if (char === '\r' || char === '\n') {
-        currentRow.push(currentField.trim());
-        if (currentRow.length > 0) rows.push(currentRow);
-        currentRow = []; currentField = "";
-        if (char === '\r' && nextChar === '\n') i++;
-      } else { currentField += char; }
-    }
-  }
-  // 最後に残ったデータがあれば追加
-  if (currentRow.length > 0 || currentField !== "") {
-    currentRow.push(currentField.trim());
-    rows.push(currentRow);
-  }
-  return skipHeader ? rows.slice(1) : rows;
+// 確実なパース関数
+function simpleParseCSV(text) {
+  return text.split(/\r?\n/).filter(line => line.trim() !== "").map(line => {
+    return line.split(',').map(cell => cell.replace(/^"|"$/g, '').trim());
+  });
 }
 
 async function loadData() {
@@ -272,52 +229,36 @@ async function loadData() {
       fetch(urlNews).then(r => r.text())
     ]);
 
-    dataJp = parseCSV(resJp, true); // ポケモンデータは1行目を飛ばす
-    dataEn = parseCSV(resEn, true);
+    dataJp = simpleParseCSV(resJp).slice(1);
+    dataEn = simpleParseCSV(resEn).slice(1);
 
-    // --- お知らせ反映処理 ---
-    try {
-      // お知らせは1行目から使うので skipHeader を false に
-      const newsRows = parseCSV(resNews, false); 
-
-      if (newsRows.length > 0) {
-        const newsContainerEl = document.getElementById('news-container');
-        let tickerHTML = "";
-
-        for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
-          const text = newsRows[i][0];
-          const link = newsRows[i][1];
-          const label = (i === 0) ? "【最新】" : "【人気】";
-
-          if (text && text.trim() !== "") {
-            if (link && link.startsWith('http')) {
-              tickerHTML += `<a href="${link}" target="_blank">${label}${text} 🐾</a>`;
-            } else {
-              tickerHTML += `<span style="font-weight: bold; font-size: 14px;">${label}${text} 🐾</span>`;
-            }
-            tickerHTML += "　　　　　　　　　　";
+    // お知らせ処理
+    const newsRows = simpleParseCSV(resNews);
+    const newsContainerEl = document.getElementById('news-container');
+    let tickerHTML = "";
+    if (newsRows.length > 0) {
+      for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
+        const text = newsRows[i][0];
+        const link = newsRows[i][1];
+        const label = (i === 0) ? "【最新】" : "【人気】";
+        if (text) {
+          if (link && link.startsWith('http')) {
+            tickerHTML += `<a href="${link}" target="_blank">${label}${text} 🐾</a>`;
+          } else {
+            tickerHTML += `<span>${label}${text} 🐾</span>`;
           }
+          tickerHTML += "　　　　　　　　　　";
         }
-
-        if (tickerHTML !== "") {
-          newsContainerEl.innerHTML = tickerHTML;
-        } else {
-          document.querySelector('.news-banner').style.display = 'none';
-        }
-      } else {
-        document.querySelector('.news-banner').style.display = 'none';
       }
-    } catch (e) {
-      console.warn("ニュース読み込み失敗", e);
+      newsContainerEl.innerHTML = tickerHTML || "お知らせはありません🐾";
     }
-    // ----------------------
 
     document.getElementById('status').style.display = 'none';
     document.getElementById('pokeTable').style.display = 'table';
     switchLang();
   } catch (e) { 
     document.getElementById('status').innerText = 'エラー🐾'; 
-    console.error("データの読み込み失敗:", e);
+    console.error(e);
   }
 }
 
@@ -349,24 +290,13 @@ function initFilterButtons(lang) {
 }
 
 function toggleTag(tag, btn) {
-  let action;
   if (selectedTags.has(tag)) {
     selectedTags.delete(tag);
     btn.classList.remove('active');
-    action = 'remove';
   } else {
     selectedTags.add(tag);
     btn.classList.add('active');
-    action = 'add';
   }
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: 'filter_selected',
-    filter_tag: tag,
-    filter_action: action,
-    filter_count: selectedTags.size,
-    selected_tags: Array.from(selectedTags).join(',')
-  });
   updateActiveFilterDisplay();
   resetAndFilter(); 
 }
@@ -418,8 +348,7 @@ function switchLang() {
 function resetAndFilter() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const sourceData = (lang === 'jp') ? dataJp : dataEn;
-  const inputEl = document.getElementById("pokeInput");
-  const input = inputEl ? inputEl.value.toLowerCase() : "";
+  const input = document.getElementById("pokeInput").value.toLowerCase();
   const textKeywords = input.replace(/、|,/g, " ").split(/[\s　]+/).filter(k => k !== "");
   const allKeywords = [...new Set([...textKeywords, ...selectedTags])];
   const mode = document.querySelector('input[name="mode"]:checked').value;
@@ -437,18 +366,14 @@ function resetAndFilter() {
 
   displayedCount = 0;
   document.getElementById('pokeBody').innerHTML = '';
-
   if (currentFilteredData.length === 0) {
-    const lang = document.querySelector('input[name="lang"]:checked').value;
-    const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
-    document.getElementById('status').innerText = noResultText;
+    document.getElementById('status').innerText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
     document.getElementById('status').style.display = 'block';
     document.getElementById('loadMoreBtn').style.display = 'none';
-    return;
   } else {
     document.getElementById('status').style.display = 'none';
+    displayNextBatch();
   }
-  displayNextBatch();
 }
 
 function displayNextBatch() {
@@ -466,8 +391,7 @@ function displayNextBatch() {
   });
 
   displayedCount += nextBatch.length;
-  const btn = document.getElementById('loadMoreBtn');
-  btn.style.display = (displayedCount < currentFilteredData.length) ? 'inline-block' : 'none';
+  document.getElementById('loadMoreBtn').style.display = (displayedCount < currentFilteredData.length) ? 'inline-block' : 'none';
 }
 
 window.onload = loadData;
@@ -478,16 +402,9 @@ function reportToGTM(val, isImmediate = false) {
   if (!val) return;
   const sendData = () => {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      'event': 'search_performed',
-      'search_term': val
-    });
+    window.dataLayer.push({ 'event': 'search_performed', 'search_term': val });
   };
-  if (isImmediate) {
-    sendData();
-  } else {
-    searchTimer = setTimeout(sendData, 1500);
-  }
+  if (isImmediate) sendData(); else searchTimer = setTimeout(sendData, 1500);
 }
 </script>
 </body>
