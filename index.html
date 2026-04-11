@@ -275,25 +275,37 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-// --- お知らせ反映処理 ---
+// --- お知らせ反映処理（2件対応版） ---
 try {
-  const newsRows = resNews.trim().split("\n").map(r => r.split(","));
+  // CSVをパース（簡易版）
+  const newsRows = parseCSV(resNews); 
 
   if (newsRows.length > 0) {
-    const text = newsRows[0][0];
-    const link = newsRows[0][1];
+    const newsLinkEl = document.getElementById('news-link');
+    const newsContainerEl = document.getElementById('news-container');
+    let tickerHTML = "";
 
-    const textEl = document.getElementById('news-text');
-    const linkEl = document.getElementById('news-link');
+    // 最大2行分をループしてHTMLを作成
+    for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
+      const text = newsRows[i][0];
+      const link = newsRows[i][1];
+      const label = (i === 0) ? "【最新】" : "【人気】"; // 1行目を最新、2行目を人気とする
 
-    if (text && text.trim() !== "") {
-      textEl.innerText = text;
-
-      if (link && link.startsWith('http')) {
-        linkEl.href = link;
-      } else {
-        linkEl.removeAttribute('href');
+      if (text && text.trim() !== "") {
+        // リンクがある場合はaタグ、ない場合はspanで作成
+        if (link && link.startsWith('http')) {
+          tickerHTML += `<a href="${link}" target="_blank" style="color: #333; text-decoration: none; font-weight: bold;">${label}${text} 🐾</a>`;
+        } else {
+          tickerHTML += `<span style="font-weight: bold;">${label}${text} 🐾</span>`;
+        }
+        // ニュースの間に大きな余白を入れる（全角スペース15個分くらい）
+        tickerHTML += "　　　　　　　　　　";
       }
+    }
+
+    if (tickerHTML !== "") {
+      // 既存の news-link を使わず、コンテナの中身を直接書き換える
+      newsContainerEl.innerHTML = tickerHTML;
     } else {
       document.querySelector('.news-banner').style.display = 'none';
     }
