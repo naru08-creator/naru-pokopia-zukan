@@ -2,14 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-P58Q7SGR');</script>
-<!-- End Google Tag Manager -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ぽこあポケモンデータ図鑑</title>
   
   <meta name="description" content="【ぽこあポケモン】非公式データ図鑑。ポケモンの得意なこと・好きなもの・環境から簡単に検索可能！スマホでも見やすく、ホーム画面に追加すればアプリ風に使えます。">
@@ -84,46 +82,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .news-banner {
   width: 100%;
   overflow: hidden;
-  background: #ffffff; /* 白背景 */
+  background: #ffffff; 
   padding: 8px 0;
   margin-bottom: 0;
-  border-bottom: 1px solid #5abfb7; /* 下線だけ色をつけるとかわいいです */
+  border-bottom: 1px solid #5abfb7;
 }
 
 #news-container {
   display: inline-block;
   white-space: nowrap;
   padding-left: 100%;
-  /* 2つ流すので少しゆっくり（35s程度）にするのがおすすめ */
-  animation: scroll-left 35s linear infinite;
+  animation: scroll-left 35s linear infinite; /* 2件用に少しゆっくり */
 }
 
 @keyframes scroll-left {
   from { transform: translateX(0); }
-  /* コンテナ自体の幅分（-100%）左に動かす */
   to { transform: translateX(-100%); }
 }
 
-#news-link {
-  color: #333333; /* 黒文字 */
+/* ニュース内のリンクスタイル */
+#news-container a {
+  color: #333333;
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
 }
 
-#news-link:hover {
-  color: #5abfb7; /* 触った時だけツールのテーマカラーに */
+#news-container a:hover {
+  color: #5abfb7;
   text-decoration: underline;
 }
-
   </style>
 </head>
 <body>
 
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P58Q7SGR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <div id="drawer">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <b id="menuTitle" style="color:#5abfb7;">絞り込み検索</b>
@@ -146,9 +140,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="news-banner">
   <div id="news-container">
-    <a id="news-link" href="#" target="_blank">
-      <span id="news-text">最新情報を読み込み中...🐾</span>
-    </a>
+    最新情報を読み込み中...🐾
   </div>
 </div>
 
@@ -194,7 +186,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 // 1. まず共通のIDを定義
 const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
 
-// 2. その後に各URLを定義（順番が大事です！）
+// 2. その後に各URLを定義
 const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0`;
 const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471`;
 const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=17811907`;
@@ -204,7 +196,7 @@ let dataEn = [];
 let selectedTags = new Set();
 let currentFilteredData = []; 
 let displayedCount = 0;      
-const batchSize = 30;        
+const batchSize = 30;         
 
 const categories = {
   jp: [
@@ -240,7 +232,8 @@ const config = {
   en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
 };
 
-function parseCSV(csvText) {
+// CSVを配列に変換する共通関数
+function parseCSV(csvText, skipHeader = true) {
   const rows = [];
   let currentField = "";
   let inQuotes = false;
@@ -257,68 +250,67 @@ function parseCSV(csvText) {
       else if (char === ',') { currentRow.push(currentField.trim()); currentField = ""; }
       else if (char === '\r' || char === '\n') {
         currentRow.push(currentField.trim());
-        if (currentRow.length > 1) rows.push(currentRow);
+        if (currentRow.length > 0) rows.push(currentRow);
         currentRow = []; currentField = "";
         if (char === '\r' && nextChar === '\n') i++;
       } else { currentField += char; }
     }
   }
-  return rows.slice(1);
+  // 最後に残ったデータがあれば追加
+  if (currentRow.length > 0 || currentField !== "") {
+    currentRow.push(currentField.trim());
+    rows.push(currentRow);
+  }
+  return skipHeader ? rows.slice(1) : rows;
 }
 
 async function loadData() {
   try {
-    // 3つのデータを取得
     const [resJp, resEn, resNews] = await Promise.all([
       fetch(urlJp).then(r => r.text()), 
       fetch(urlEn).then(r => r.text()),
       fetch(urlNews).then(r => r.text())
     ]);
 
-    dataJp = parseCSV(resJp); 
-    dataEn = parseCSV(resEn);
+    dataJp = parseCSV(resJp, true); // ポケモンデータは1行目を飛ばす
+    dataEn = parseCSV(resEn, true);
 
-// --- お知らせ反映処理（2件対応版） ---
-try {
-  // CSVをパース（簡易版）
-  const newsRows = parseCSV(resNews); 
+    // --- お知らせ反映処理 ---
+    try {
+      // お知らせは1行目から使うので skipHeader を false に
+      const newsRows = parseCSV(resNews, false); 
 
-  if (newsRows.length > 0) {
-    const newsLinkEl = document.getElementById('news-link');
-    const newsContainerEl = document.getElementById('news-container');
-    let tickerHTML = "";
+      if (newsRows.length > 0) {
+        const newsContainerEl = document.getElementById('news-container');
+        let tickerHTML = "";
 
-    // 最大2行分をループしてHTMLを作成
-    for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
-      const text = newsRows[i][0];
-      const link = newsRows[i][1];
-      const label = (i === 0) ? "【最新】" : "【人気】"; // 1行目を最新、2行目を人気とする
+        for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
+          const text = newsRows[i][0];
+          const link = newsRows[i][1];
+          const label = (i === 0) ? "【最新】" : "【人気】";
 
-      if (text && text.trim() !== "") {
-        // リンクがある場合はaタグ、ない場合はspanで作成
-        if (link && link.startsWith('http')) {
-          tickerHTML += `<a href="${link}" target="_blank" style="color: #333; text-decoration: none; font-weight: bold;">${label}${text} 🐾</a>`;
-        } else {
-          tickerHTML += `<span style="font-weight: bold;">${label}${text} 🐾</span>`;
+          if (text && text.trim() !== "") {
+            if (link && link.startsWith('http')) {
+              tickerHTML += `<a href="${link}" target="_blank">${label}${text} 🐾</a>`;
+            } else {
+              tickerHTML += `<span style="font-weight: bold; font-size: 14px;">${label}${text} 🐾</span>`;
+            }
+            tickerHTML += "　　　　　　　　　　";
+          }
         }
-        // ニュースの間に大きな余白を入れる（全角スペース15個分くらい）
-        tickerHTML += "　　　　　　　　　　";
-      }
-    }
 
-    if (tickerHTML !== "") {
-      // 既存の news-link を使わず、コンテナの中身を直接書き換える
-      newsContainerEl.innerHTML = tickerHTML;
-    } else {
-      document.querySelector('.news-banner').style.display = 'none';
+        if (tickerHTML !== "") {
+          newsContainerEl.innerHTML = tickerHTML;
+        } else {
+          document.querySelector('.news-banner').style.display = 'none';
+        }
+      } else {
+        document.querySelector('.news-banner').style.display = 'none';
+      }
+    } catch (e) {
+      console.warn("ニュース読み込み失敗", e);
     }
-  } else {
-    document.querySelector('.news-banner').style.display = 'none';
-  }
-} catch (e) {
-  console.warn("ニュース失敗", e);
-}
-    // ------------------------------------------
+    // ----------------------
 
     document.getElementById('status').style.display = 'none';
     document.getElementById('pokeTable').style.display = 'table';
@@ -329,7 +321,6 @@ try {
   }
 }
 
-// 以下、他の関数（initFilterButtons, toggleTag...等）は変更なしでOKです
 function initFilterButtons(lang) {
   const container = document.getElementById('filterButtons');
   container.innerHTML = "";
@@ -359,7 +350,6 @@ function initFilterButtons(lang) {
 
 function toggleTag(tag, btn) {
   let action;
-
   if (selectedTags.has(tag)) {
     selectedTags.delete(tag);
     btn.classList.remove('active');
@@ -369,7 +359,6 @@ function toggleTag(tag, btn) {
     btn.classList.add('active');
     action = 'add';
   }
-
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: 'filter_selected',
@@ -378,7 +367,6 @@ function toggleTag(tag, btn) {
     filter_count: selectedTags.size,
     selected_tags: Array.from(selectedTags).join(',')
   });
-
   updateActiveFilterDisplay();
   resetAndFilter(); 
 }
@@ -432,10 +420,7 @@ function resetAndFilter() {
   const sourceData = (lang === 'jp') ? dataJp : dataEn;
   const inputEl = document.getElementById("pokeInput");
   const input = inputEl ? inputEl.value.toLowerCase() : "";
-  const textKeywords = input
-  .replace(/、|,/g, " ")
-  .split(/[\s　]+/)
-  .filter(k => k !== "");
+  const textKeywords = input.replace(/、|,/g, " ").split(/[\s　]+/).filter(k => k !== "");
   const allKeywords = [...new Set([...textKeywords, ...selectedTags])];
   const mode = document.querySelector('input[name="mode"]:checked').value;
 
@@ -456,7 +441,6 @@ function resetAndFilter() {
   if (currentFilteredData.length === 0) {
     const lang = document.querySelector('input[name="lang"]:checked').value;
     const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
-
     document.getElementById('status').innerText = noResultText;
     document.getElementById('status').style.display = 'block';
     document.getElementById('loadMoreBtn').style.display = 'none';
@@ -464,7 +448,6 @@ function resetAndFilter() {
   } else {
     document.getElementById('status').style.display = 'none';
   }
-
   displayNextBatch();
 }
 
