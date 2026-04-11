@@ -15,7 +15,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
   
     <style>
-    /* かわいい丸文字系システムフォントを優先 */
     body { 
       font-family: "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "ヒラギノ丸ゴ Pro W4", "UD Shin Maru Go Regular", "Yu Gothic", "Meiryo", sans-serif;
       margin: 0; padding: 0; background: #f3f7f6; color: #333; overflow-x: hidden; 
@@ -24,7 +23,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     h1 { color: #6fcac3; text-align: center; margin: 15px 0 5px; font-size: 22px; }
     .description { text-align: center; font-size: 13px; color: #666; margin-bottom: 10px; padding: 0 10px; }
     
-    /* リンクエリア */
     .links { text-align: center; margin-bottom: 15px; }
     .links a { display: inline-block; margin: 5px 8px; font-size: 13px; color: #5abfb7; text-decoration: none; font-weight: bold; }
     .links a:hover { text-decoration: underline; }
@@ -38,24 +36,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
     .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 15px; background: #eee; border: 1px solid #ddd; }
     .mode-switch input:checked + label, .lang-switch input:checked + label { background: #5abfb7; color: white; border-color: #5abfb7; }
-    .mode-switch input, .lang-switch input { display: none; }
+    .mode-switch input { display: none; }
+    .lang-switch input { display: none; }
     
     #activeFilters { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .filter-tag { background: #5abfb7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; cursor: pointer; }
     
-    /* サイドメニュー（ドロワー） */
     #drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #fff; z-index: 2000; transition: 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.2); overflow-y: auto; padding: 20px; box-sizing: border-box; visibility: hidden; }
     #drawer.open { right: 0; visibility: visible; }
     #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
     
-    /* 分類タイトル */
     .main-category-title { background: #f0f8f7; color: #5abfb7; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 25px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #5abfb7; }
     .sub-category-title { font-weight: bold; margin: 15px 0 8px; border-left: 4px solid #5abfb7; padding-left: 8px; font-size: 12px; color: #555; }
     .btn-grid { display: flex; flex-wrap: wrap; gap: 4px; }
     .tag-btn { padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; background: #fff; font-size: 11px; cursor: pointer; }
     .tag-btn.active { background: #5abfb7; color: #fff; border-color: #5abfb7; }
     
-    /* テーブルスタイル */
     .container { padding: 8px; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th { background: #5abfb7; color: white; padding: 10px; text-align: left; font-size: 13px; }
@@ -78,40 +74,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
     footer p { margin: 4px 0; }
 
-/* 電光掲示板：白背景・黒文字バージョン */
+/* スマホ対応・電光掲示板修正 */
 .news-banner {
   width: 100%;
   overflow: hidden;
-  background: #ffffff; /* 白背景 */
-  padding: 8px 0;
-  margin-bottom: 0;
+  background: #ffffff;
+  padding: 10px 0;
   border-bottom: 1px solid #5abfb7;
+  height: 20px; /* 高さを固定 */
+  display: flex;
+  align-items: center;
 }
 
 #news-container {
-  display: inline-block;
+  display: flex;
   white-space: nowrap;
   padding-left: 100%;
-  animation: scroll-left 35s linear infinite; /* 少しゆっくりに調整 */
+  animation: scroll-left 30s linear infinite;
 }
 
-/* ニュース内のリンクとテキストの共通スタイル */
 .news-item {
   color: #333333;
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
-  margin-right: 80px; /* ニュース同士の間隔 */
+  padding-right: 100px; /* ニュースの間隔 */
+  display: inline-block;
 }
 
 .news-item:hover {
   color: #5abfb7;
-  text-decoration: underline;
 }
 
 @keyframes scroll-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
   </style>
 </head>
@@ -119,6 +116,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P58Q7SGR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 <div id="drawer">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <b id="menuTitle" style="color:#5abfb7;">絞り込み検索</b>
@@ -141,17 +139,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="news-banner">
   <div id="news-container">
-    <span id="news-loading" style="font-size:14px; font-weight:bold;">最新情報を読み込み中...🐾</span>
+    <span id="news-loading" style="font-size:14px; font-weight:bold; padding-right:50px;">最新情報を読み込み中...🐾</span>
   </div>
 </div>
 
 <div class="search-header">
   <div class="search-bar-row">
-    <input type="text" id="pokeInput" 
-  oninput="resetAndFilter(); reportToGTM(this.value)" 
-  onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" 
-  placeholder="例：さいばい、あかるい、キュート🐾">
-
+    <input type="text" id="pokeInput" oninput="resetAndFilter(); reportToGTM(this.value)" onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" placeholder="例：さいばい、あかるい、キュート🐾">
     <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
   </div>
   <div class="controls">
@@ -184,10 +178,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <script>
-// 1. まず共通のIDを定義
 const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
-
-// 2. その後に各URLを定義
 const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0`;
 const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471`;
 const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=17811907`;
@@ -233,7 +224,6 @@ const config = {
   en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
 };
 
-// 【元のCSV解析関数】一切変更なし
 function parseCSV(csvText) {
   const rows = [];
   let currentField = "";
@@ -271,46 +261,33 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // --- お知らせ反映処理（ここだけ複数対応に書き換えました） ---
+    // 複数のお知らせ対応
     try {
       const newsLines = resNews.trim().split(/\r?\n/);
       const newsContainer = document.getElementById('news-container');
-      
       if (newsLines.length > 0) {
         let html = "";
         newsLines.forEach(line => {
           const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-          const text = cols[0];
-          const link = cols[1];
-          
-          if (text && text !== "") {
-            if (link && link.startsWith('http')) {
-              html += `<a href="${link}" class="news-item" target="_blank">${text} 🐾</a>`;
+          if (cols[0]) {
+            if (cols[1] && cols[1].startsWith('http')) {
+              html += `<a href="${cols[1]}" class="news-item" target="_blank">${cols[0]} 🐾</a>`;
             } else {
-              html += `<span class="news-item">${text} 🐾</span>`;
+              html += `<span class="news-item">${cols[0]} 🐾</span>`;
             }
           }
         });
-        
-        if (html !== "") {
-          newsContainer.innerHTML = html;
-        } else {
-          document.querySelector('.news-banner').style.display = 'none';
-        }
+        newsContainer.innerHTML = html;
       } else {
         document.querySelector('.news-banner').style.display = 'none';
       }
-    } catch (e) {
-      console.warn("ニュース読み込みエラー", e);
-    }
-    // ------------------------------------------
+    } catch (e) { console.warn(e); }
 
     document.getElementById('status').style.display = 'none';
     document.getElementById('pokeTable').style.display = 'table';
     switchLang();
   } catch (e) { 
     document.getElementById('status').innerText = 'エラー🐾'; 
-    console.error("データの読み込み失敗:", e);
   }
 }
 
@@ -342,24 +319,13 @@ function initFilterButtons(lang) {
 }
 
 function toggleTag(tag, btn) {
-  let action;
   if (selectedTags.has(tag)) {
     selectedTags.delete(tag);
     btn.classList.remove('active');
-    action = 'remove';
   } else {
     selectedTags.add(tag);
     btn.classList.add('active');
-    action = 'add';
   }
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: 'filter_selected',
-    filter_tag: tag,
-    filter_action: action,
-    filter_count: selectedTags.size,
-    selected_tags: Array.from(selectedTags).join(',')
-  });
   updateActiveFilterDisplay();
   resetAndFilter(); 
 }
@@ -413,10 +379,7 @@ function resetAndFilter() {
   const sourceData = (lang === 'jp') ? dataJp : dataEn;
   const inputEl = document.getElementById("pokeInput");
   const input = inputEl ? inputEl.value.toLowerCase() : "";
-  const textKeywords = input
-  .replace(/、|,/g, " ")
-  .split(/[\s　]+/)
-  .filter(k => k !== "");
+  const textKeywords = input.replace(/、|,/g, " ").split(/[\s　]+/).filter(k => k !== "");
   const allKeywords = [...new Set([...textKeywords, ...selectedTags])];
   const mode = document.querySelector('input[name="mode"]:checked').value;
 
@@ -433,18 +396,14 @@ function resetAndFilter() {
 
   displayedCount = 0;
   document.getElementById('pokeBody').innerHTML = '';
-
   if (currentFilteredData.length === 0) {
-    const lang = document.querySelector('input[name="lang"]:checked').value;
-    const noResultText = (lang === 'jp') ? '該当なし🐾' : 'No results🐾';
-    document.getElementById('status').innerText = noResultText;
+    document.getElementById('status').innerText = (lang === 'jp' ? '該当なし🐾' : 'No results🐾');
     document.getElementById('status').style.display = 'block';
     document.getElementById('loadMoreBtn').style.display = 'none';
-    return;
   } else {
     document.getElementById('status').style.display = 'none';
+    displayNextBatch();
   }
-  displayNextBatch();
 }
 
 function displayNextBatch() {
@@ -452,7 +411,6 @@ function displayNextBatch() {
   const currentConfig = config[lang];
   const tbody = document.getElementById('pokeBody');
   const nextBatch = currentFilteredData.slice(displayedCount, displayedCount + batchSize);
-  
   nextBatch.forEach(cols => {
     const tr = document.createElement('tr');
     tr.innerHTML = cols.map((val, idx) => `
@@ -460,10 +418,8 @@ function displayNextBatch() {
     `).join('');
     tbody.appendChild(tr);
   });
-
   displayedCount += nextBatch.length;
-  const btn = document.getElementById('loadMoreBtn');
-  btn.style.display = (displayedCount < currentFilteredData.length) ? 'inline-block' : 'none';
+  document.getElementById('loadMoreBtn').style.display = (displayedCount < currentFilteredData.length) ? 'inline-block' : 'none';
 }
 
 window.onload = loadData;
@@ -474,16 +430,9 @@ function reportToGTM(val, isImmediate = false) {
   if (!val) return;
   const sendData = () => {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      'event': 'search_performed',
-      'search_term': val
-    });
+    window.dataLayer.push({ 'event': 'search_performed', 'search_term': val });
   };
-  if (isImmediate) {
-    sendData();
-  } else {
-    searchTimer = setTimeout(sendData, 1500);
-  }
+  if (isImmediate) sendData(); else searchTimer = setTimeout(sendData, 1500);
 }
 </script>
 </body>
