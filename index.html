@@ -36,8 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
     .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 15px; background: #eee; border: 1px solid #ddd; }
     .mode-switch input:checked + label, .lang-switch input:checked + label { background: #5abfb7; color: white; border-color: #5abfb7; }
-    .mode-switch input { display: none; }
-    .lang-switch input { display: none; }
+    .mode-switch input, .lang-switch input { display: none; }
     
     #activeFilters { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .filter-tag { background: #5abfb7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; cursor: pointer; }
@@ -94,8 +93,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   to { transform: translateX(-100%); }
 }
 
-#news-container span, #news-container a {
-  display: inline-block;
+#news-container a, #news-container span {
   font-size: 14px;
   font-weight: bold;
   color: #333;
@@ -214,8 +212,8 @@ const config = {
   en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
 };
 
-// 確実なパース関数
-function simpleParseCSV(text) {
+// CSVを解析する関数（空行を除去し、各セルをトリミングする）
+function parseCSV(text) {
   return text.split(/\r?\n/).filter(line => line.trim() !== "").map(line => {
     return line.split(',').map(cell => cell.replace(/^"|"$/g, '').trim());
   });
@@ -229,13 +227,15 @@ async function loadData() {
       fetch(urlNews).then(r => r.text())
     ]);
 
-    dataJp = simpleParseCSV(resJp).slice(1);
-    dataEn = simpleParseCSV(resEn).slice(1);
+    // ★重要：ポケモンデータは1行目（ヘッダー）を飛ばす（slice(1)）
+    dataJp = parseCSV(resJp).slice(1);
+    dataEn = parseCSV(resEn).slice(1);
 
-    // お知らせ処理
-    const newsRows = simpleParseCSV(resNews);
+    // ★お知らせデータは飛ばさない（そのまま使う）
+    const newsRows = parseCSV(resNews);
     const newsContainerEl = document.getElementById('news-container');
     let tickerHTML = "";
+
     if (newsRows.length > 0) {
       for (let i = 0; i < Math.min(newsRows.length, 2); i++) {
         const text = newsRows[i][0];
@@ -250,7 +250,7 @@ async function loadData() {
           tickerHTML += "　　　　　　　　　　";
         }
       }
-      newsContainerEl.innerHTML = tickerHTML || "お知らせはありません🐾";
+      newsContainerEl.innerHTML = tickerHTML;
     }
 
     document.getElementById('status').style.display = 'none';
