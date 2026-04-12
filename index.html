@@ -95,12 +95,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 #news-container {
-  display: flex;
+  display: inline-flex; /* inline-blockではなくinline-flexに変更 */
   white-space: nowrap;
-  /* 速度を「秒」ではなく「文字の長さに合わせる」のは難しいので、
-     一旦 translateX(-100%) のまま、
-     スマホで消えきる前にループするように JavaScript で中身を2回繰り返すのが正解です */
-  animation: scroll-left 20s linear infinite; 
+  animation: scroll-left 25s linear infinite;
+  /* スマホでのガタつき防止 */
+  will-change: transform; 
 }
 
 .news-item {
@@ -114,7 +113,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 @keyframes scroll-left {
   0% { transform: translateX(0); }
-  /* 全体の半分（1セット分）が過ぎたら0に戻る */
+  /* パーセント指定は「中身全体」に対する割合なので、
+     JavaScriptで2倍にしているなら「-50%」でピッタリ1周します */
   100% { transform: translateX(-50%); } 
 }
 
