@@ -112,8 +112,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 @keyframes scroll-left {
   0% { transform: translateX(0); }
-  /* 半分（コピー分）まで行ったら0に戻ることでループさせる */
-  100% { transform: translateX(-50%); }
+  /* パーセント(%)ではなく、具体的な距離(px)を指定してループさせます */
+  100% { transform: translateX(-1000px); } 
 }
 
   </style>
