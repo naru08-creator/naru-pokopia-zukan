@@ -2,6 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ゆるっとマイペースに推しごとチュウ",
+  "url": "https://naru08-creator.github.io/naru-pokopia-zukan/"
+}
+</script>
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -74,23 +83,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
     footer p { margin: 4px 0; }
 
-/* スマホ対応・電光掲示板修正 */
+/* 電光掲示板：スマホでも消えないループ設定 */
 .news-banner {
   width: 100%;
   overflow: hidden;
   background: #ffffff;
   padding: 10px 0;
   border-bottom: 1px solid #5abfb7;
-  height: 20px; /* 高さを固定 */
+  height: 24px; /* 少し余裕を持たせる */
   display: flex;
-  align-items: center;
 }
 
 #news-container {
   display: flex;
   white-space: nowrap;
-  padding-left: 100%;
-  animation: scroll-left 30s linear infinite;
+  /* アニメーションの起点を0にします */
+  animation: scroll-left 25s linear infinite;
 }
 
 .news-item {
@@ -98,18 +106,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   text-decoration: none;
   font-size: 14px;
   font-weight: bold;
-  padding-right: 100px; /* ニュースの間隔 */
-  display: inline-block;
-}
-
-.news-item:hover {
-  color: #5abfb7;
+  padding-right: 80px; /* アイテム間の距離 */
+  flex-shrink: 0;
 }
 
 @keyframes scroll-left {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  /* 半分（コピー分）まで行ったら0に戻ることでループさせる */
+  100% { transform: translateX(-50%); }
 }
+
   </style>
 </head>
 <body>
@@ -261,23 +267,24 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
-    // 複数のお知らせ対応
+ // ニュース反映処理（2回繰り返して無限ループ化）
     try {
       const newsLines = resNews.trim().split(/\r?\n/);
       const newsContainer = document.getElementById('news-container');
       if (newsLines.length > 0) {
-        let html = "";
+        let singleSetHtml = ""; // 1セット分のHTMLを格納
         newsLines.forEach(line => {
           const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
           if (cols[0]) {
             if (cols[1] && cols[1].startsWith('http')) {
-              html += `<a href="${cols[1]}" class="news-item" target="_blank">${cols[0]} 🐾</a>`;
+              singleSetHtml += `<a href="${cols[1]}" class="news-item" target="_blank">${cols[0]} 🐾</a>`;
             } else {
-              html += `<span class="news-item">${cols[0]} 🐾</span>`;
+              singleSetHtml += `<span class="news-item">${cols[0]} 🐾</span>`;
             }
           }
         });
-        newsContainer.innerHTML = html;
+        // 【重要】同じ内容を2つ繋げて表示します
+        newsContainer.innerHTML = singleSetHtml + singleSetHtml;
       } else {
         document.querySelector('.news-banner').style.display = 'none';
       }
