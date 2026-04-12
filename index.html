@@ -97,8 +97,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 #news-container {
   display: flex;
   white-space: nowrap;
-  /* アニメーションの起点を0にします */
-  animation: scroll-left 25s linear infinite;
+  /* 速度を「秒」ではなく「文字の長さに合わせる」のは難しいので、
+     一旦 translateX(-100%) のまま、
+     スマホで消えきる前にループするように JavaScript で中身を2回繰り返すのが正解です */
+  animation: scroll-left 20s linear infinite; 
 }
 
 .news-item {
@@ -112,8 +114,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 @keyframes scroll-left {
   0% { transform: translateX(0); }
-  /* パーセント(%)ではなく、具体的な距離(px)を指定してループさせます */
-  100% { transform: translateX(-1000px); } 
+  /* 全体の半分（1セット分）が過ぎたら0に戻る */
+  100% { transform: translateX(-50%); } 
 }
 
   </style>
