@@ -195,8 +195,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
-const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0`;
-const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471`;
+const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0&range=A:F`;
+const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471&range=A:F`;
 const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=17811907`;
 
 let dataJp = [];
@@ -262,6 +262,10 @@ function parseCSV(csvText) {
         if (char === '\r' && nextChar === '\n') i++;
       } else { currentField += char; }
     }
+  }
+  if (currentField !== "" || currentRow.length > 0) {
+    currentRow.push(currentField.trim());
+    if (currentRow.length > 1) rows.push(currentRow);
   }
   return rows.slice(1);
 }
