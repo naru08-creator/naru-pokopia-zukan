@@ -97,9 +97,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 #news-container {
   display: inline-flex; /* inline-blockではなくinline-flexに変更 */
   white-space: nowrap;
-  animation: scroll-left 25s linear infinite;
+  animation: scroll-left var(--news-duration, 25s) linear infinite;
   /* スマホでのガタつき防止 */
-  will-change: transform; 
+  will-change: transform;
+  transform: translate3d(100vw, 0, 0);
 }
 
 .news-item {
@@ -112,10 +113,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
-  /* パーセント指定は「中身全体」に対する割合なので、
-     JavaScriptで2倍にしているなら「-50%」でピッタリ1周します */
-  100% { transform: translateX(-50%); } 
+  0% { transform: translate3d(var(--news-start, 100vw), 0, 0); }
+  100% { transform: translate3d(var(--news-end, -100%), 0, 0); }
 }
 
   </style>
@@ -241,6 +240,10 @@ const config = {
 };
 
 function parseCSV(csvText) {
+  return parseCSVRows(csvText).slice(1);
+}
+
+function parseCSVRows(csvText) {
   const rows = [];
   let currentField = "";
   let inQuotes = false;
@@ -257,7 +260,7 @@ function parseCSV(csvText) {
       else if (char === ',') { currentRow.push(currentField.trim()); currentField = ""; }
       else if (char === '\r' || char === '\n') {
         currentRow.push(currentField.trim());
-        if (currentRow.length > 1) rows.push(currentRow);
+        if (currentRow.some(field => field.trim() !== "")) rows.push(currentRow);
         currentRow = []; currentField = "";
         if (char === '\r' && nextChar === '\n') i++;
       } else { currentField += char; }
@@ -265,9 +268,59 @@ function parseCSV(csvText) {
   }
   if (currentField !== "" || currentRow.length > 0) {
     currentRow.push(currentField.trim());
-    if (currentRow.length > 1) rows.push(currentRow);
+    if (currentRow.some(field => field.trim() !== "")) rows.push(currentRow);
   }
-  return rows.slice(1);
+  return rows;
+}
+
+function setupNewsBanner(csvText) {
+  const newsContainer = document.getElementById('news-container');
+  const newsBanner = document.querySelector('.news-banner');
+  const rows = parseCSVRows(csvText).filter(row => row.some(col => col.trim() !== ""));
+  const headerText = (rows[0] && rows[0][0] ? rows[0][0] : "").toLowerCase();
+  const hasHeader = /news|title|お知らせ|タイトル|見出し|本文/.test(headerText);
+  const newsRows = hasHeader ? rows.slice(1) : rows;
+
+  newsContainer.innerHTML = "";
+  if (newsRows.length === 0) {
+    newsBanner.style.display = 'none';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  newsRows.forEach(cols => {
+    const text = (cols[0] || "").trim();
+    const link = (cols[1] || "").trim();
+    if (!text) return;
+
+    const item = document.createElement(link.startsWith('http') ? 'a' : 'span');
+    item.className = "news-item";
+    item.textContent = `${text} 🐾`;
+    if (item.tagName === 'A') {
+      item.href = link;
+      item.target = "_blank";
+      item.rel = "noopener noreferrer";
+    }
+    fragment.appendChild(item);
+  });
+
+  newsContainer.appendChild(fragment);
+  if (newsContainer.children.length === 0) {
+    newsBanner.style.display = 'none';
+    return;
+  }
+
+  const updateNewsAnimation = () => {
+    const bannerWidth = newsBanner.offsetWidth;
+    const contentWidth = newsContainer.scrollWidth;
+    const duration = Math.max(18, (bannerWidth + contentWidth) / 55);
+    newsContainer.style.setProperty('--news-start', `${bannerWidth}px`);
+    newsContainer.style.setProperty('--news-end', `-${contentWidth}px`);
+    newsContainer.style.setProperty('--news-duration', `${duration}s`);
+  };
+
+  updateNewsAnimation();
+  window.addEventListener('resize', updateNewsAnimation);
 }
 
 async function loadData() {
@@ -281,27 +334,9 @@ async function loadData() {
     dataJp = parseCSV(resJp); 
     dataEn = parseCSV(resEn);
 
- // ニュース反映処理（2回繰り返して無限ループ化）
+ // ニュース反映処理
     try {
-      const newsLines = resNews.trim().split(/\r?\n/);
-      const newsContainer = document.getElementById('news-container');
-      if (newsLines.length > 0) {
-        let singleSetHtml = ""; // 1セット分のHTMLを格納
-        newsLines.forEach(line => {
-          const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-          if (cols[0]) {
-            if (cols[1] && cols[1].startsWith('http')) {
-              singleSetHtml += `<a href="${cols[1]}" class="news-item" target="_blank">${cols[0]} 🐾</a>`;
-            } else {
-              singleSetHtml += `<span class="news-item">${cols[0]} 🐾</span>`;
-            }
-          }
-        });
-        // 【重要】同じ内容を2つ繋げて表示します
-        newsContainer.innerHTML = singleSetHtml + singleSetHtml;
-      } else {
-        document.querySelector('.news-banner').style.display = 'none';
-      }
+      setupNewsBanner(resNews);
     } catch (e) { console.warn(e); }
 
     document.getElementById('status').style.display = 'none';
