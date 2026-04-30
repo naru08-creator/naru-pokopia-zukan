@@ -100,7 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   animation: scroll-left var(--news-duration, 25s) linear infinite;
   /* スマホでのガタつき防止 */
   will-change: transform;
-  transform: translate3d(100vw, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .news-item {
@@ -113,8 +113,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 @keyframes scroll-left {
-  0% { transform: translate3d(var(--news-start, 100vw), 0, 0); }
-  100% { transform: translate3d(var(--news-end, -100%), 0, 0); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(var(--news-end, -50%), 0, 0); }
 }
 
   </style>
@@ -287,12 +287,13 @@ function setupNewsBanner(csvText) {
     return;
   }
 
-  const fragment = document.createDocumentFragment();
-  newsRows.forEach(cols => {
+  const newsItems = newsRows.map(cols => {
     const text = (cols[0] || "").trim();
     const link = (cols[1] || "").trim();
-    if (!text) return;
+    return { text, link };
+  }).filter(item => item.text);
 
+  const createNewsItem = ({ text, link }) => {
     const item = document.createElement(link.startsWith('http') ? 'a' : 'span');
     item.className = "news-item";
     item.textContent = `${text} 🐾`;
@@ -301,21 +302,32 @@ function setupNewsBanner(csvText) {
       item.target = "_blank";
       item.rel = "noopener noreferrer";
     }
-    fragment.appendChild(item);
-  });
+    return item;
+  };
 
-  newsContainer.appendChild(fragment);
-  if (newsContainer.children.length === 0) {
+  const renderNewsItems = (copies) => {
+    newsContainer.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < copies; i++) {
+      newsItems.forEach(item => fragment.appendChild(createNewsItem(item)));
+    }
+    newsContainer.appendChild(fragment);
+  };
+
+  if (newsItems.length === 0) {
     newsBanner.style.display = 'none';
     return;
   }
 
   const updateNewsAnimation = () => {
     const bannerWidth = newsBanner.offsetWidth;
-    const contentWidth = newsContainer.scrollWidth;
-    const duration = Math.max(18, (bannerWidth + contentWidth) / 55);
-    newsContainer.style.setProperty('--news-start', `${bannerWidth}px`);
-    newsContainer.style.setProperty('--news-end', `-${contentWidth}px`);
+    renderNewsItems(1);
+    const singleSetWidth = newsContainer.scrollWidth;
+    if (!singleSetWidth) return;
+    const copies = Math.max(2, Math.ceil((bannerWidth + singleSetWidth) / singleSetWidth) + 1);
+    renderNewsItems(copies);
+    const duration = Math.max(18, singleSetWidth / 55);
+    newsContainer.style.setProperty('--news-end', `-${singleSetWidth}px`);
     newsContainer.style.setProperty('--news-duration', `${duration}s`);
   };
 
