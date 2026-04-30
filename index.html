@@ -38,8 +38,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     .search-header { background: #fff; padding: 10px; border-bottom: 2px solid #5abfb7; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     .search-bar-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    #pokeInput { flex: 1; padding: 10px; border: 2px solid #5abfb7; border-radius: 8px; font-size: 16px; outline: none; width: 100%; }
-    .drawer-btn { background: #5abfb7; color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 18px; min-width: 50px; }
+    .search-input-wrap { position: relative; flex: 1; min-width: 0; }
+    #pokeInput { box-sizing: border-box; padding: 10px 44px 10px 10px; border: 2px solid #5abfb7; border-radius: 8px; font-size: 16px; outline: none; width: 100%; min-height: 44px; }
+    .input-clear-btn { position: absolute; top: 50%; right: 5px; transform: translateY(-50%); width: 34px; height: 34px; border: none; border-radius: 50%; background: #edf4f3; color: #5c7471; cursor: pointer; font-size: 22px; line-height: 1; display: none; align-items: center; justify-content: center; }
+    .input-clear-btn.show { display: flex; }
+    .drawer-btn { background: #5abfb7; color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 18px; min-width: 50px; min-height: 44px; }
     
     .controls { display: flex; justify-content: space-between; align-items: center; }
     .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
@@ -67,6 +70,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
     
     @media screen and (max-width: 600px) {
+      .search-header { padding: 8px; }
+      .mode-switch label, .lang-switch label { padding: 7px 10px; min-height: 18px; display: inline-flex; align-items: center; }
+      .filter-tag { padding: 5px 10px; min-height: 22px; }
+      #drawer { width: min(320px, 88vw); right: -88vw; }
+      .tag-btn { min-height: 34px; padding: 7px 11px; }
       table, thead, tbody, th, td, tr { display: block; }
       thead { display: none; }
       tr { margin-bottom: 12px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); padding: 12px; border: 1px solid #eee; }
@@ -152,7 +160,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="search-header">
   <div class="search-bar-row">
-    <input type="text" id="pokeInput" oninput="resetAndFilter(); reportToGTM(this.value)" onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" placeholder="例：さいばい、あかるい、キュート🐾">
+    <div class="search-input-wrap">
+      <input type="text" id="pokeInput" oninput="handleSearchInput()" onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" placeholder="例：さいばい、あかるい、キュート🐾">
+      <button type="button" id="clearSearchBtn" class="input-clear-btn" onclick="clearSearchInput()" aria-label="検索語をクリア">&times;</button>
+    </div>
     <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
   </div>
   <div class="controls">
@@ -419,8 +430,31 @@ function clearFilters() {
   selectedTags.clear();
   document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('pokeInput').value = "";
+  updateClearSearchButton();
   updateActiveFilterDisplay();
   resetAndFilter();
+}
+
+function updateClearSearchButton() {
+  const inputEl = document.getElementById('pokeInput');
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (!inputEl || !clearBtn) return;
+  clearBtn.classList.toggle('show', inputEl.value.length > 0);
+}
+
+function handleSearchInput() {
+  updateClearSearchButton();
+  resetAndFilter();
+  reportToGTM(document.getElementById('pokeInput').value);
+}
+
+function clearSearchInput() {
+  const inputEl = document.getElementById('pokeInput');
+  if (!inputEl) return;
+  inputEl.value = "";
+  updateClearSearchButton();
+  resetAndFilter();
+  inputEl.focus();
 }
 
 function toggleDrawer() {
@@ -438,6 +472,7 @@ function switchLang() {
   document.getElementById('loadMoreBtn').innerText = currentConfig.loadMore;
   document.getElementById('pokeHead').innerHTML = `<tr>${currentConfig.headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
   document.getElementById('pokeInput').placeholder = currentConfig.placeholder;
+  updateClearSearchButton();
   initFilterButtons(lang);
   resetAndFilter(); 
 }
