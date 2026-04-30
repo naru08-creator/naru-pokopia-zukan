@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ゆるっとマイペースに推しごとチュウ",
+  "url": "https://naru08-creator.github.io/naru-pokopia-zukan/"
+}
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P58Q7SGR');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ぽこあポケモンデータ図鑑</title>
+  
+  <meta name="description" content="【ぽこあポケモン】非公式データ図鑑。ポケモンの得意なこと・好きなもの・環境から簡単に検索可能！スマホでも見やすく、ホーム画面に追加すればアプリ風に使えます。">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+  
+    <style>
+    body { 
+      font-family: "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "ヒラギノ丸ゴ Pro W4", "UD Shin Maru Go Regular", "Yu Gothic", "Meiryo", sans-serif;
+      margin: 0; padding: 0; background: #f3f7f6; color: #333; overflow-x: hidden; 
+    }
+    
+    h1 { color: #6fcac3; text-align: center; margin: 15px 0 5px; font-size: 22px; }
+    .description { text-align: center; font-size: 13px; color: #666; margin-bottom: 10px; padding: 0 10px; }
+    
+    .links { text-align: center; margin-bottom: 15px; }
+    .links a { display: inline-block; margin: 5px 8px; font-size: 13px; color: #5abfb7; text-decoration: none; font-weight: bold; }
+    .links a:hover { text-decoration: underline; }
+
+    .search-header { background: #fff; padding: 10px; border-bottom: 2px solid #5abfb7; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .search-bar-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    #pokeInput { flex: 1; padding: 10px; border: 2px solid #5abfb7; border-radius: 8px; font-size: 16px; outline: none; width: 100%; }
+    .drawer-btn { background: #5abfb7; color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 18px; min-width: 50px; }
+    
+    .controls { display: flex; justify-content: space-between; align-items: center; }
+    .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
+    .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 15px; background: #eee; border: 1px solid #ddd; }
+    .mode-switch input:checked + label, .lang-switch input:checked + label { background: #5abfb7; color: white; border-color: #5abfb7; }
+    .mode-switch input { display: none; }
+    .lang-switch input { display: none; }
+    
+    #activeFilters { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .filter-tag { background: #5abfb7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; cursor: pointer; }
+    
+    #drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #fff; z-index: 2000; transition: 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.2); overflow-y: auto; padding: 20px; box-sizing: border-box; visibility: hidden; }
+    #drawer.open { right: 0; visibility: visible; }
+    #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
+    
+    .main-category-title { background: #f0f8f7; color: #5abfb7; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 25px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #5abfb7; }
+    .sub-category-title { font-weight: bold; margin: 15px 0 8px; border-left: 4px solid #5abfb7; padding-left: 8px; font-size: 12px; color: #555; }
+    .btn-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag-btn { padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; background: #fff; font-size: 11px; cursor: pointer; }
+    .tag-btn.active { background: #5abfb7; color: #fff; border-color: #5abfb7; }
+    
+    .container { padding: 8px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th { background: #5abfb7; color: white; padding: 10px; text-align: left; font-size: 13px; }
+    td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
+    
+    @media screen and (max-width: 600px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { margin-bottom: 12px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); padding: 12px; border: 1px solid #eee; }
+      td:nth-child(1) { display: inline-block; color: #999; font-size: 11px; padding: 0 5px 0 0; }
+      td:nth-child(2) { display: block; font-size: 17px; font-weight: bold; color: #333; padding: 0 0 8px 0; border-bottom: 1px solid #f0f0f0; margin-bottom: 8px; }
+      td:nth-child(n+3) { padding: 4px 0; font-size: 13px; border: none; display: flex; }
+      td::before { content: attr(data-label) "："; font-weight: bold; color: #5abfb7; width: 100px; flex-shrink: 0; font-size: 11px; }
+    }
+
+    #loadMoreArea { text-align: center; padding: 20px; }
+    #loadMoreBtn { background: #5abfb7; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 14px; cursor: pointer; display: none; }
+    #status { text-align: center; padding: 40px; color: #888; font-size: 14px; }
+    
+    footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
+    footer p { margin: 4px 0; }
+
+/* 電光掲示板：スマホでも消えないループ設定 */
+.news-banner {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 10px 0;
+  border-bottom: 1px solid #5abfb7;
+  height: 24px; /* 少し余裕を持たせる */
+  display: flex;
+}
+
+#news-container {
+  display: inline-flex; /* inline-blockではなくinline-flexに変更 */
+  white-space: nowrap;
+  animation: scroll-left var(--news-duration, 25s) linear infinite;
+  /* スマホでのガタつき防止 */
+  will-change: transform;
+  transform: translate3d(100vw, 0, 0);
+}
+
+.news-item {
+  color: #333333;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: 80px; /* アイテム間の距離 */
+  flex-shrink: 0;
+}
+
+@keyframes scroll-left {
+  0% { transform: translate3d(var(--news-start, 100vw), 0, 0); }
+  100% { transform: translate3d(var(--news-end, -100%), 0, 0); }
+}
+
+  </style>
+</head>
+<body>
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P58Q7SGR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div id="drawer">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <b id="menuTitle" style="color:#5abfb7;">絞り込み検索</b>
+    <button onclick="toggleDrawer()" style="background:none; border:none; font-size:24px; cursor:pointer;">&times;</button>
+  </div>
+  <button id="resetBtn" onclick="clearFilters()" style="width:100%; padding:10px; background:#f0f0f0; border:none; border-radius:5px; margin-bottom:15px;">リセット</button>
+  <div id="filterButtons"></div>
+</div>
+<div id="overlay" onclick="toggleDrawer()"></div>
+
+<h1>ぽこあポケモンデータ図鑑</h1>
+<p class="description">
+  特技・好きなもの・環境からポケモンを検索できる非公式データ図鑑です🐾
+</p>
+
+<div class="links">
+  <a href="https://narunikki.hatenablog.com/entry/pokopiazukan">▶ このツールの解説</a>
+  <a href="https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3">▶ ぽこあポケモン記事一覧</a>
+</div>
+
+<div class="news-banner">
+  <div id="news-container">
+    <span id="news-loading" style="font-size:14px; font-weight:bold; padding-right:50px;">最新情報を読み込み中...🐾</span>
+  </div>
+</div>
+
+<div class="search-header">
+  <div class="search-bar-row">
+    <input type="text" id="pokeInput" oninput="resetAndFilter(); reportToGTM(this.value)" onkeypress="if(event.key==='Enter'){resetAndFilter(); reportToGTM(this.value, true)}" placeholder="例：さいばい、あかるい、キュート🐾">
+    <button class="drawer-btn" onclick="toggleDrawer()">🔍</button>
+  </div>
+  <div class="controls">
+    <div class="lang-switch">
+      <input type="radio" name="lang" id="langJp" value="jp" checked onchange="switchLang()"><label for="langJp">日本語</label>
+      <input type="radio" name="lang" id="langEn" value="en" onchange="switchLang()"><label for="langEn">English</label>
+    </div>
+    <div class="mode-switch">
+      <input type="radio" name="mode" id="and" value="and" checked onchange="resetAndFilter()"><label for="and">AND</label>
+      <input type="radio" name="mode" id="or" value="or" onchange="resetAndFilter()"><label for="or">OR</label>
+    </div>
+  </div>
+  <div id="activeFilters"></div>
+</div>
+
+<div class="container">
+  <div id="status">通信中...🐾</div>
+  <table id="pokeTable" style="display:none;">
+    <thead id="pokeHead"></thead>
+    <tbody id="pokeBody"></tbody>
+  </table>
+  <div id="loadMoreArea">
+    <button id="loadMoreBtn" onclick="displayNextBatch()">続きを見る🐾</button>
+  </div>
+</div>
+<div style="margin-bottom: 15px; text-align:center;">
+  <a href="https://naru08-creator.github.io/narunikki_portal/"
+     style="display: inline-block; padding: 14px 22px; background-color: #6fcac3; color: #fff;
+            font-family: 'Rounded Mplus 1c', sans-serif; font-size: 15px; font-weight: bold;
+            text-decoration: none; border-radius: 12px;">
+    🐾 ポータル（案内所）はこちら
+  </a>
+</div>
+
+<footer>
+  <p>※本サイトは「ぽこあポケモン」の非公式ファンサイトです。</p>
+  <p>© ゆるっとマイペースに推しごとチュウ</p>
+</footer>
+
+<script>
+const sheetId = '1KLawCBmZsMP-seDsEQu5pFUf4_NOIR6wbu3TqvbDXmk';
+const urlJp = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=0&range=A:F`;
+const urlEn = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=893275471&range=A:F`;
+const urlNews = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=17811907`;
+
+let dataJp = [];
+let dataEn = [];
+let selectedTags = new Set();
+let currentFilteredData = []; 
+let displayedCount = 0;      
+const batchSize = 30;         
+
+const categories = {
+  jp: [
+    { main: "⚡ 得意なこと", subs: [{ label: "", color: "#6fcac3", items: ["もやす", "さいばい", "うるおす", "きをきる", "けんちく", "じならし", "さがしもの", "そらをとぶ", "テレポート", "リサイクル", "しわける", "はつでん", "つぶす", "ちらかす", "とりひき", "もりあげる", "あくび", "ゆめしま", "ミツあつめ", "しゅうのう", "ばくはつ", "コレクター", "レアもの", "かんてい", "はっこう", "ペイント", "くいしんぼ", "パーティー", "DJ", "しょくにん", "へんしん", "不明"] }] },
+    { main: "🏠 好きな環境", subs: [{ label: "", color: "#f39c12", items: ["あかるい", "くらい", "あたたかい", "すずしい", "うるおっている", "乾そうしている"] }] },
+    { main: "❤️ 好きなもの", subs: [
+      { label: "💎 質感・形", color: "#3498db", items: ["かたい", "やわらかい", "まわる", "ゆれる", "まんまる", "四角い", "とがっている", "ほっそり", "キラキラしてる", "メタリック", "ガラス入り"] },
+      { label: "🌿 自然・素材", color: "#27ae60", items: ["自然を感じる", "水を感じる", "海を感じる", "風を感じる", "炎を感じる", "土を感じる", "木製", "布仕立て", "石づくり", "花ざかり", "あそびば"] },
+      { label: "🍭 味", color: "#e74c3c", items: ["あまい", "からい", "しぶい", "すっぱい", "にがい"] },
+      { label: "🎨 雰囲気・デザイン", color: "#9b59b6", items: ["カラフル", "キュート", "ゴージャス", "ブキミ", "フシギ", "見て楽しむ", "食べものそっくり"] },
+      { label: "⚙️ 機能・効果", color: "#7f8c8d", items: ["キズをいやす", "せいけつ", "トレーニングできる", "音が鳴る", "電気で動く", "乗りもの"] },
+      { label: "📦 性質・その他", color: "#95a5a6", items: ["あつまり", "いれもの", "けんせつ", "ゴミ", "シンボル", "みんなで使う", "難しそうなもの", "文字がある", "なし"] }
+    ]},
+    { main: "🗑️ ちらかすアイテム", subs: [{ label: "", color: "#95a5a6", items: ["あまいミツ", "いし", "いとくず", "ぐにゃぐにゃねんど", "じょうぶなえだ", "ちいさなまるた", "つたひも", "てつ", "はっぱ", "もえないゴミ", "わた"] }] }
+  ],
+  en: [
+    { main: "⚡ Specialties", subs: [{ label: "", color: "#6fcac3", items: ["Burn", "Grow", "Water", "Chop", "Build", "Bulldoze", "Search", "Fly", "Teleport", "Recycle", "Gather", "Generate", "Crush", "Litter", "Trade", "Hype", "Yawn", "Dream Island", "Gather Honey", "Storage", "Explode", "Collect", "Rarify", "Appraise", "Illuminate", "Paint", "Eat", "Party", "DJ", "Engineer", "Transform", "???"] }] },
+    { main: "🏠 Ideal Habitat", subs: [{ label: "", color: "#f39c12", items: ["Bright", "Dark", "Warm", "Cool", "Humid", "Dry"] }] },
+    { main: "❤️ Favorites", subs: [
+      { label: "💎 Texture/Shape", color: "#3498db", items: ["Hard stuff", "Soft stuff", "Spinning stuff", "Wobbly stuff", "Round stuff", "Blocky stuff", "Sharp stuff", "Slender objects", "Shiny stuff", "Metal stuff", "Glass stuff"] },
+      { label: "🌿 Nature/Material", color: "#27ae60", items: ["Lots of nature", "Lots of water", "Ocean vibes", "Nice breezes", "Lots of fire", "Lots of dirt", "Wooden stuff", "Fabric", "Stone stuff", "Pretty flowers", "Play spaces"] },
+      { label: "🍭 Taste", color: "#e74c3c", items: ["Sweet flavors", "Spicy flavors", "Dry flavors", "Sour flavors", "Bitter flavors"] },
+      { label: "🎨 Vibes/Design", color: "#9b59b6", items: ["Colorful stuff", "Cute stuff", "Luxury", "Spooky stuff", "Strange stuff", "Watching stuff", "Looks like food"] },
+      { label: "⚙️ Functions/Effects", color: "#7f8c8d", items: ["Healing", "Cleanliness", "Exercise", "Noisy stuff", "Electronics", "Rides"] },
+      { label: "📦 Traits/Other", color: "#95a5a6", items: ["Gatherings", "Containers", "Construction", "Garbage", "Symbols", "Group activities", "Complicated stuff", "Letters and words", "None"] }
+    ]},
+    { main: "🗑️ Littered Items", subs: [{ label: "", color: "#95a5a6", items: ["Honey", "Stone", "Twine", "Squishy clay", "Sturdy stick", "Small log", "Vine rope", "Iron ore", "Leaf", "Nonburnable garbage", "Fluff"] }] }
+  ]
+};
+
+const config = {
+  jp: { headers: ["No.", "ポケモン名", "得意なこと", "好きな環境", "好きなもの", "ちらかすアイテム"], placeholder: "例：さいばい、あかるい、キュート🐾", menuTitle: "絞り込み検索", reset: "リセット", loadMore: "続きを見る🐾" },
+  en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
+};
+
+function parseCSV(csvText) {
+  return parseCSVRows(csvText).slice(1);
+}
+
+function parseCSVRows(csvText) {
+  const rows = [];
+  let currentField = "";
+  let inQuotes = false;
+  let currentRow = [];
+  for (let i = 0; i < csvText.length; i++) {
+    const char = csvText[i];
+    const nextChar = csvText[i + 1];
+    if (inQuotes) {
+      if (char === '"' && nextChar === '"') { currentField += '"'; i++; }
+      else if (char === '"') { inQuotes = false; }
+      else { currentField += char; }
+    } else {
+      if (char === '"') { inQuotes = true; }
+      else if (char === ',') { currentRow.push(currentField.trim()); currentField = ""; }
+      else if (char === '\r' || char === '\n') {
+        currentRow.push(currentField.trim());
+        if (currentRow.some(field => field.trim() !== "")) rows.push(currentRow);
+        currentRow = []; currentField = "";
+        if (char === '\r' && nextChar === '\n') i++;
+      } else { currentField += char; }
+    }
+  }
+  if (currentField !== "" || currentRow.length > 0) {
+    currentRow.push(currentField.trim());
+    if (currentRow.some(field => field.trim() !== "")) rows.push(currentRow);
+  }
+  return rows;
+}
+
+function setupNewsBanner(csvText) {
+  const newsContainer = document.getElementById('news-container');
+  const newsBanner = document.querySelector('.news-banner');
+  const rows = parseCSVRows(csvText).filter(row => row.some(col => col.trim() !== ""));
+  const headerText = (rows[0] && rows[0][0] ? rows[0][0] : "").toLowerCase();
+  const hasHeader = /news|title|お知らせ|タイトル|見出し|本文/.test(headerText);
+  const newsRows = hasHeader ? rows.slice(1) : rows;
+
+  newsContainer.innerHTML = "";
+  if (newsRows.length === 0) {
+    newsBanner.style.display = 'none';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  newsRows.forEach(cols => {
+    const text = (cols[0] || "").trim();
+    const link = (cols[1] || "").trim();
+    if (!text) return;
+
+    const item = document.createElement(link.startsWith('http') ? 'a' : 'span');
+    item.className = "news-item";
+    item.textContent = `${text} 🐾`;
+    if (item.tagName === 'A') {
+      item.href = link;
+      item.target = "_blank";
+      item.rel = "noopener noreferrer";
+    }
+    fragment.appendChild(item);
+  });
+
+  newsContainer.appendChild(fragment);
+  if (newsContainer.children.length === 0) {
+    newsBanner.style.display = 'none';
+    return;
+  }
+
+  const updateNewsAnimation = () => {
+    const bannerWidth = newsBanner.offsetWidth;
+    const contentWidth = newsContainer.scrollWidth;
+    const duration = Math.max(18, (bannerWidth + contentWidth) / 55);
+    newsContainer.style.setProperty('--news-start', `${bannerWidth}px`);
+    newsContainer.style.setProperty('--news-end', `-${contentWidth}px`);
+    newsContainer.style.setProperty('--news-duration', `${duration}s`);
+  };
+
+  updateNewsAnimation();
+  window.addEventListener('resize', updateNewsAnimation);
+}
+
+async function loadData() {
+  try {
+    const [resJp, resEn, resNews] = await Promise.all([
+      fetch(urlJp).then(r => r.text()), 
+      fetch(urlEn).then(r => r.text()),
+      fetch(urlNews).then(r => r.text())
+    ]);
+
+    dataJp = parseCSV(resJp); 
+    dataEn = parseCSV(resEn);
+
+ // ニュース反映処理
+    try {
+      setupNewsBanner(resNews);
+    } catch (e) { console.warn(e); }
+
+    document.getElementById('status').style.display = 'none';
+    document.getElementById('pokeTable').style.display = 'table';
+    switchLang();
+  } catch (e) { 
+    document.getElementById('status').innerText = 'エラー🐾'; 
+  }
+}
+
+function initFilterButtons(lang) {
+  const container = document.getElementById('filterButtons');
+  container.innerHTML = "";
+  categories[lang].forEach(cat => {
+    const mainTitle = document.createElement('div');
+    mainTitle.className = "main-category-title";
+    mainTitle.innerText = cat.main;
+    container.appendChild(mainTitle);
+    cat.subs.forEach(sub => {
+      const section = document.createElement('div');
+      if (sub.label !== "") { section.innerHTML = `<div class="sub-category-title" style="border-color:${sub.color}">${sub.label}</div>`; }
+      const btnBox = document.createElement('div');
+      btnBox.className = "btn-grid";
+      sub.items.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = "tag-btn";
+        if (selectedTags.has(item)) btn.classList.add('active');
+        btn.innerText = item;
+        btn.onclick = () => toggleTag(item, btn);
+        btnBox.appendChild(btn);
+      });
+      section.appendChild(btnBox);
+      container.appendChild(section);
+    });
+  });
+}
+
+function toggleTag(tag, btn) {
+  if (selectedTags.has(tag)) {
+    selectedTags.delete(tag);
+    btn.classList.remove('active');
+  } else {
+    selectedTags.add(tag);
+    btn.classList.add('active');
+  }
+  updateActiveFilterDisplay();
+  resetAndFilter(); 
+}
+
+function updateActiveFilterDisplay() {
+  const container = document.getElementById('activeFilters');
+  container.innerHTML = "";
+  selectedTags.forEach(tag => {
+    const span = document.createElement('div');
+    span.className = "filter-tag";
+    span.innerHTML = `${tag} <span style="margin-left:5px;">&times;</span>`;
+    span.onclick = () => {
+      selectedTags.delete(tag);
+      document.querySelectorAll('.tag-btn').forEach(b => { if(b.innerText === tag) b.classList.remove('active'); });
+      updateActiveFilterDisplay();
+      resetAndFilter();
+    };
+    container.appendChild(span);
+  });
+}
+
+function clearFilters() {
+  selectedTags.clear();
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pokeInput').value = "";
+  updateActiveFilterDisplay();
+  resetAndFilter();
+}
+
+function toggleDrawer() {
+  const d = document.getElementById('drawer');
+  const o = document.getElementById('overlay');
+  d.classList.toggle('open');
+  o.style.display = d.classList.contains('open') ? "block" : "none";
+}
+
+function switchLang() {
+  const lang = document.querySelector('input[name="lang"]:checked').value;
+  const currentConfig = config[lang];
+  document.getElementById('menuTitle').innerText = currentConfig.menuTitle;
+  document.getElementById('resetBtn').innerText = currentConfig.reset;
+  document.getElementById('loadMoreBtn').innerText = currentConfig.loadMore;
+  document.getElementById('pokeHead').innerHTML = `<tr>${currentConfig.headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+  document.getElementById('pokeInput').placeholder = currentConfig.placeholder;
+  initFilterButtons(lang);
+  resetAndFilter(); 
+}
+
+function resetAndFilter() {
+  const lang = document.querySelector('input[name="lang"]:checked').value;
+  const sourceData = (lang === 'jp') ? dataJp : dataEn;
+  const inputEl = document.getElementById("pokeInput");
+  const input = inputEl ? inputEl.value.toLowerCase() : "";
+  const textKeywords = input.replace(/、|,/g, " ").split(/[\s　]+/).filter(k => k !== "");
+  const allKeywords = [...new Set([...textKeywords, ...selectedTags])];
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+
+  if (allKeywords.length === 0) {
+    currentFilteredData = sourceData;
+  } else {
+    currentFilteredData = sourceData.filter(cols => {
+      const rowText = cols.join(" ").toLowerCase();
+      return (mode === "and") 
+        ? allKeywords.every(k => rowText.includes(k.toLowerCase())) 
+        : allKeywords.some(k => rowText.includes(k.toLowerCase()));
+    });
+  }
+
+  displayedCount = 0;
+  document.getElementById('pokeBody').innerHTML = '';
+  if (currentFilteredData.length === 0) {
+    document.getElementById('status').innerText = (lang === 'jp' ? '該当なし🐾' : 'No results🐾');
+    document.getElementById('status').style.display = 'block';
+    document.getElementById('loadMoreBtn').style.display = 'none';
+  } else {
+    document.getElementById('status').style.display = 'none';
+    displayNextBatch();
+  }
+}
+
+function displayNextBatch() {
+  const lang = document.querySelector('input[name="lang"]:checked').value;
+  const currentConfig = config[lang];
+  const tbody = document.getElementById('pokeBody');
+  const nextBatch = currentFilteredData.slice(displayedCount, displayedCount + batchSize);
+  nextBatch.forEach(cols => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = cols.map((val, idx) => `
+      <td data-label="${currentConfig.headers[idx] || ""}">${idx === 1 ? `<b>${val}</b>` : val}</td>
+    `).join('');
+    tbody.appendChild(tr);
+  });
+  displayedCount += nextBatch.length;
+  document.getElementById('loadMoreBtn').style.display = (displayedCount < currentFilteredData.length) ? 'inline-block' : 'none';
+}
+
+window.onload = loadData;
+
+let searchTimer;
+function reportToGTM(val, isImmediate = false) {
+  clearTimeout(searchTimer);
+  if (!val) return;
+  const sendData = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'event': 'search_performed', 'search_term': val });
+  };
+  if (isImmediate) sendData(); else searchTimer = setTimeout(sendData, 1500);
+}
+</script>
+</body>
+</html>
