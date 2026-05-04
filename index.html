@@ -24,50 +24,89 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
   
     <style>
+    :root {
+      --sky: #74d8e8;
+      --sky-soft: #dff8fc;
+      --grass: #b8e95a;
+      --grass-dark: #73c64b;
+      --leaf: #58c96d;
+      --mint: #5fcfc3;
+      --mint-dark: #38ada3;
+      --wood: #c28a4a;
+      --wood-dark: #95622f;
+      --cream: #fff8df;
+      --ink: #3f3a2f;
+      --round-font: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ Pro W4", "UD Shin Maru Go Regular", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
     body { 
-      font-family: "Hiragino Maru Gothic ProN", "Hiragino Kaku Gothic ProN", "ヒラギノ丸ゴ Pro W4", "UD Shin Maru Go Regular", "Yu Gothic", "Meiryo", sans-serif;
-      margin: 0; padding: 0; background: #f3f7f6; color: #333; overflow-x: hidden; 
+      font-family: var(--round-font);
+      margin: 0; padding: 0;
+      background:
+        radial-gradient(circle at 12% 32px, rgba(255,255,255,0.95) 0 18px, transparent 19px),
+        radial-gradient(circle at 18% 38px, rgba(255,255,255,0.9) 0 14px, transparent 15px),
+        radial-gradient(circle at 80% 46px, rgba(255,255,255,0.9) 0 16px, transparent 17px),
+        linear-gradient(180deg, var(--sky-soft) 0 150px, #f7ffe9 150px 100%);
+      background-repeat: no-repeat;
+      background-color: #f7ffe9;
+      color: var(--ink); overflow-x: hidden; 
     }
     
-    h1 { color: #6fcac3; text-align: center; margin: 15px 0 5px; font-size: 22px; }
-    .description { text-align: center; font-size: 13px; color: #666; margin-bottom: 10px; padding: 0 10px; }
+    h1 {
+      color: #fff;
+      text-align: center;
+      margin: 14px auto 7px;
+      padding: 10px 18px;
+      max-width: min(88vw, 520px);
+      box-sizing: border-box;
+      font-size: 22px;
+      background: linear-gradient(180deg, #d59b59, var(--wood));
+      border: 4px solid var(--cream);
+      border-radius: 999px;
+      box-shadow: 0 4px 0 var(--wood-dark), 0 8px 16px rgba(75, 111, 77, 0.18);
+      font-weight: 900;
+      letter-spacing: 0;
+      text-shadow: 0 2px 0 rgba(95, 62, 29, 0.38), 1px 0 0 rgba(255,255,255,0.28), -1px 0 0 rgba(255,255,255,0.28);
+    }
+    .description { text-align: center; font-size: 13px; color: #5b6d51; margin-bottom: 10px; padding: 0 14px; font-weight: 800; }
     
     .links { text-align: center; margin-bottom: 15px; }
-    .links a { display: inline-block; margin: 5px 8px; font-size: 13px; color: #5abfb7; text-decoration: none; font-weight: bold; }
-    .links a:hover { text-decoration: underline; }
+    .links a { display: inline-block; margin: 5px 5px; padding: 6px 10px; font-size: 13px; color: var(--mint-dark); text-decoration: none; font-weight: 800; background: rgba(255,255,255,0.75); border: 1px solid rgba(88, 201, 109, 0.35); border-radius: 999px; }
+    .links a:hover { background: #fff; }
 
-    .search-header { background: #fff; padding: 10px; border-bottom: 2px solid #5abfb7; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .search-header { background: rgba(255, 255, 255, 0.96); padding: 10px; border-top: 3px solid var(--grass); border-bottom: 3px solid var(--mint); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 14px rgba(68, 137, 122, 0.14); }
     .search-bar-row { display: flex; gap: 8px; margin-bottom: 8px; }
     .search-input-wrap { position: relative; flex: 1; min-width: 0; }
-    #pokeInput { box-sizing: border-box; padding: 10px 44px 10px 10px; border: 2px solid #5abfb7; border-radius: 8px; font-size: 16px; outline: none; width: 100%; min-height: 44px; }
-    .input-clear-btn { position: absolute; top: 50%; right: 5px; transform: translateY(-50%); width: 34px; height: 34px; border: none; border-radius: 50%; background: #edf4f3; color: #5c7471; cursor: pointer; font-size: 22px; line-height: 1; display: none; align-items: center; justify-content: center; }
+    #pokeInput { box-sizing: border-box; padding: 10px 44px 10px 12px; border: 2px solid var(--mint); border-radius: 12px; font-size: 16px; font-weight: 700; outline: none; width: 100%; min-height: 44px; background: #fffefa; box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
+    #pokeInput:focus { border-color: var(--grass-dark); box-shadow: 0 0 0 3px rgba(184, 233, 90, 0.28); }
+    .input-clear-btn { position: absolute; top: 50%; right: 5px; transform: translateY(-50%); width: 34px; height: 34px; border: none; border-radius: 50%; background: #edf8ed; color: #5c7471; cursor: pointer; font-size: 22px; line-height: 1; display: none; align-items: center; justify-content: center; }
     .input-clear-btn.show { display: flex; }
-    .drawer-btn { background: #5abfb7; color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 18px; min-width: 50px; min-height: 44px; }
+    .drawer-btn { background: linear-gradient(180deg, var(--mint), var(--mint-dark)); color: white; border: none; border-radius: 12px; padding: 0 15px; cursor: pointer; font-size: 18px; font-weight: 900; min-width: 50px; min-height: 44px; box-shadow: 0 3px 0 #2d8f88; }
     
     .controls { display: flex; justify-content: space-between; align-items: center; }
     .mode-switch, .lang-switch { display: flex; gap: 4px; font-size: 11px; }
-    .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 15px; background: #eee; border: 1px solid #ddd; }
-    .mode-switch input:checked + label, .lang-switch input:checked + label { background: #5abfb7; color: white; border-color: #5abfb7; }
+    .mode-switch label, .lang-switch label { cursor: pointer; padding: 4px 8px; border-radius: 999px; background: #fff8df; border: 1px solid #ead89a; color: #6e6445; font-weight: 900; }
+    .mode-switch input:checked + label, .lang-switch input:checked + label { background: var(--grass); color: #41662a; border-color: var(--grass-dark); }
     .mode-switch input { display: none; }
     .lang-switch input { display: none; }
     
     #activeFilters { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .filter-tag { background: #5abfb7; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; display: flex; align-items: center; cursor: pointer; }
+    .filter-tag { background: var(--mint); color: white; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 0 #3aa89e; text-shadow: 0 1px 0 rgba(45, 104, 98, 0.28); }
     
-    #drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #fff; z-index: 2000; transition: 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.2); overflow-y: auto; padding: 20px; box-sizing: border-box; visibility: hidden; }
+    #drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: linear-gradient(180deg, #ffffff, #f4ffe4); z-index: 2000; transition: 0.3s; box-shadow: -2px 0 18px rgba(59, 109, 93, 0.24); overflow-y: auto; padding: 20px; box-sizing: border-box; visibility: hidden; }
     #drawer.open { right: 0; visibility: visible; }
     #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
     
-    .main-category-title { background: #f0f8f7; color: #5abfb7; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 25px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #5abfb7; }
-    .sub-category-title { font-weight: bold; margin: 15px 0 8px; border-left: 4px solid #5abfb7; padding-left: 8px; font-size: 12px; color: #555; }
+    .main-category-title { background: linear-gradient(180deg, #fff7cf, #f5df85); color: #6d5725; padding: 8px; border-radius: 10px; font-weight: 900; margin-top: 25px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 2px solid #fff; box-shadow: 0 2px 0 #d4b85a; text-shadow: 0 1px 0 rgba(255,255,255,0.7); }
+    .sub-category-title { font-weight: 900; margin: 15px 0 8px; border-left: 5px solid var(--mint); padding-left: 8px; font-size: 12px; color: #555; }
     .btn-grid { display: flex; flex-wrap: wrap; gap: 4px; }
-    .tag-btn { padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; background: #fff; font-size: 11px; cursor: pointer; }
-    .tag-btn.active { background: #5abfb7; color: #fff; border-color: #5abfb7; }
+    .tag-btn { padding: 6px 10px; border: 1px solid #d9e8c0; border-radius: 999px; background: #fffefa; color: #4d5842; font-size: 11px; cursor: pointer; font-weight: 800; }
+    .tag-btn.active { background: var(--leaf); color: #fff; border-color: var(--leaf); box-shadow: 0 2px 0 #399a4f; }
     
     .container { padding: 8px; }
-    table { width: 100%; border-collapse: collapse; background: #fff; }
-    th { background: #5abfb7; color: white; padding: 10px; text-align: left; font-size: 13px; }
-    td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.96); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(85, 135, 77, 0.12); }
+    th { background: linear-gradient(180deg, var(--mint), var(--mint-dark)); color: white; padding: 10px; text-align: left; font-size: 13px; }
+    td { padding: 10px; border-bottom: 1px solid #e8f1d6; font-size: 14px; }
     
     @media screen and (max-width: 600px) {
       .search-header { padding: 8px; }
@@ -77,29 +116,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .tag-btn { min-height: 34px; padding: 7px 11px; }
       table, thead, tbody, th, td, tr { display: block; }
       thead { display: none; }
-      tr { margin-bottom: 12px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); padding: 12px; border: 1px solid #eee; }
-      td:nth-child(1) { display: inline-block; color: #999; font-size: 11px; padding: 0 5px 0 0; }
-      td:nth-child(2) { display: block; font-size: 17px; font-weight: bold; color: #333; padding: 0 0 8px 0; border-bottom: 1px solid #f0f0f0; margin-bottom: 8px; }
+      tr { margin-bottom: 12px; background: rgba(255,255,255,0.97); border-radius: 14px; box-shadow: 0 4px 0 rgba(184, 233, 90, 0.35), 0 6px 14px rgba(79, 124, 66, 0.12); padding: 12px; border: 2px solid rgba(255,255,255,0.9); }
+      td:nth-child(1) { display: inline-block; color: #7aa063; font-size: 11px; padding: 0 5px 0 0; font-weight: 900; }
+      td:nth-child(2) { display: block; font-size: 18px; font-weight: 900; color: var(--wood-dark); padding: 0 0 8px 0; border-bottom: 1px dashed #d9e8c0; margin-bottom: 8px; text-shadow: 0 1px 0 rgba(255,255,255,0.85); }
       td:nth-child(n+3) { padding: 4px 0; font-size: 13px; border: none; display: flex; }
-      td::before { content: attr(data-label) "："; font-weight: bold; color: #5abfb7; width: 100px; flex-shrink: 0; font-size: 11px; }
+      td::before { content: attr(data-label) "："; font-weight: 900; color: var(--mint-dark); width: 100px; flex-shrink: 0; font-size: 11px; }
     }
 
     #loadMoreArea { text-align: center; padding: 20px; }
-    #loadMoreBtn { background: #5abfb7; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 14px; cursor: pointer; display: none; }
-    #status { text-align: center; padding: 40px; color: #888; font-size: 14px; }
+    #loadMoreBtn { background: linear-gradient(180deg, var(--grass), var(--grass-dark)); color: white; border: 2px solid #fff; padding: 12px 30px; border-radius: 999px; font-size: 14px; font-weight: 900; cursor: pointer; display: none; box-shadow: 0 4px 0 #4e9d32; text-shadow: 0 1px 0 rgba(53, 111, 33, 0.28); }
+    #status { text-align: center; padding: 40px; color: #6f7d5e; font-size: 14px; font-weight: 900; }
     
-    footer { text-align: center; font-size: 11px; color: #888; margin-top: 30px; padding: 20px; border-top: 1px solid #e0e0e0; background: #fafafa; }
+    footer { text-align: center; font-size: 11px; color: #6d775a; margin-top: 30px; padding: 20px; border-top: 1px solid #cfe69c; background: rgba(255, 248, 223, 0.78); }
     footer p { margin: 4px 0; }
 
 /* 電光掲示板：スマホでも消えないループ設定 */
 .news-banner {
   width: 100%;
   overflow: hidden;
-  background: #ffffff;
+  background: linear-gradient(90deg, #fff6c4, #ffffff 20%, #ffffff 80%, #fff6c4);
   padding: 10px 0;
-  border-bottom: 1px solid #5abfb7;
+  border-top: 1px solid rgba(255,255,255,0.8);
+  border-bottom: 2px solid var(--grass);
   height: 24px; /* 少し余裕を持たせる */
   display: flex;
+  box-shadow: inset 0 -2px 0 rgba(115, 198, 75, 0.12);
 }
 
 #news-container {
@@ -112,10 +153,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 .news-item {
-  color: #333333;
+  color: #5b4527;
   text-decoration: none;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 900;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.85);
   padding-right: 80px; /* アイテム間の距離 */
   flex-shrink: 0;
 }
@@ -142,14 +184,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <div id="overlay" onclick="toggleDrawer()"></div>
 
-<h1>ぽこあポケモンデータ図鑑</h1>
-<p class="description">
+<h1 id="pageTitle">ぽこあポケモンデータ図鑑</h1>
+<p id="pageDescription" class="description">
   特技・好きなもの・環境からポケモンを検索できる非公式データ図鑑です🐾
 </p>
 
 <div class="links">
-  <a href="https://narunikki.hatenablog.com/entry/pokopiazukan">▶ このツールの解説</a>
-  <a href="https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3">▶ ぽこあポケモン記事一覧</a>
+  <a id="guideLink" href="https://narunikki.hatenablog.com/entry/pokopiazukan">▶ このツールの解説</a>
+  <a id="articleLink" href="https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3">▶ ぽこあポケモン記事一覧</a>
 </div>
 
 <div class="news-banner">
@@ -194,13 +236,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      style="display: inline-block; padding: 14px 22px; background-color: #6fcac3; color: #fff;
             font-family: 'Rounded Mplus 1c', sans-serif; font-size: 15px; font-weight: bold;
             text-decoration: none; border-radius: 12px;">
-    🐾 ポータル（案内所）はこちら
+    <span id="portalLinkText">🐾 ポータル（案内所）はこちら</span>
   </a>
 </div>
 
 <footer>
-  <p>※本サイトは「ぽこあポケモン」の非公式ファンサイトです。</p>
-  <p>© ゆるっとマイペースに推しごとチュウ</p>
+  <p id="footerNotice">※本サイトは「ぽこあポケモン」の非公式ファンサイトです。</p>
+  <p id="footerCredit">© ゆるっとマイペースに推しごとチュウ</p>
 </footer>
 
 <script>
@@ -246,8 +288,34 @@ const categories = {
 };
 
 const config = {
-  jp: { headers: ["No.", "ポケモン名", "得意なこと", "好きな環境", "好きなもの", "ちらかすアイテム"], placeholder: "例：さいばい、あかるい、キュート🐾", menuTitle: "絞り込み検索", reset: "リセット", loadMore: "続きを見る🐾" },
-  en: { headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"], placeholder: "e.g. Grow, Bright, Cute stuff🐾", menuTitle: "Filter Search", reset: "Reset", loadMore: "Load More🐾" }
+  jp: {
+    pageTitle: "ぽこあポケモンデータ図鑑",
+    pageDescription: "特技・好きなもの・環境からポケモンを検索できる非公式データ図鑑です🐾",
+    guideLink: "▶ このツールの解説",
+    articleLink: "▶ ぽこあポケモン記事一覧",
+    portalLink: "🐾 ポータル（案内所）はこちら",
+    footerNotice: "※本サイトは「ぽこあポケモン」の非公式ファンサイトです。",
+    footerCredit: "© ゆるっとマイペースに推しごとチュウ",
+    headers: ["No.", "ポケモン名", "得意なこと", "好きな環境", "好きなもの", "ちらかすアイテム"],
+    placeholder: "例：さいばい、あかるい、キュート🐾",
+    menuTitle: "絞り込み検索",
+    reset: "リセット",
+    loadMore: "続きを見る🐾"
+  },
+  en: {
+    pageTitle: "Pokémon Pokopia Data Guide",
+    pageDescription: "Search Pokémon by specialties, favorite things, and ideal habitats in this unofficial data guide🐾",
+    guideLink: "▶ About this tool",
+    articleLink: "▶ Pokémon Pokopia articles",
+    portalLink: "🐾 Back to the portal",
+    footerNotice: "This is an unofficial fan site for Pokémon Pokopia.",
+    footerCredit: "© Yurutto My Pace ni Oshigoto-chu",
+    headers: ["No.", "Pokémon Name", "Specialties", "Ideal Habitat", "Favorites", "Littered Items"],
+    placeholder: "e.g. Grow, Bright, Cute stuff🐾",
+    menuTitle: "Filter Search",
+    reset: "Reset",
+    loadMore: "Load More🐾"
+  }
 };
 
 function parseCSV(csvText) {
@@ -467,6 +535,15 @@ function toggleDrawer() {
 function switchLang() {
   const lang = document.querySelector('input[name="lang"]:checked').value;
   const currentConfig = config[lang];
+  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'en';
+  document.title = currentConfig.pageTitle;
+  document.getElementById('pageTitle').innerText = currentConfig.pageTitle;
+  document.getElementById('pageDescription').innerText = currentConfig.pageDescription;
+  document.getElementById('guideLink').innerText = currentConfig.guideLink;
+  document.getElementById('articleLink').innerText = currentConfig.articleLink;
+  document.getElementById('portalLinkText').innerText = currentConfig.portalLink;
+  document.getElementById('footerNotice').innerText = currentConfig.footerNotice;
+  document.getElementById('footerCredit').innerText = currentConfig.footerCredit;
   document.getElementById('menuTitle').innerText = currentConfig.menuTitle;
   document.getElementById('resetBtn').innerText = currentConfig.reset;
   document.getElementById('loadMoreBtn').innerText = currentConfig.loadMore;
