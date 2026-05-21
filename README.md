@@ -63,3 +63,70 @@ AIやUI設計を使って、情報を見やすく・使いやすく整理する�
 制作物やブログはポータルにまとめています。
 
 👉 [活動ポータルを見る](https://naru08-creator.github.io/narunikki_portal/)
+
+---
+
+# Pokémon Pokopia Data Guide
+
+An unofficial data guide for **Pokémon Pokopia**, designed primarily for comfortable use on smartphones.
+
+This tool turns data organized in Google Sheets into a lightweight web app where users can search and filter Pokémon by specialties, ideal habitats, favorite things, and littered items.
+
+## Links
+
+- **Live Demo:** [Pokémon Pokopia Data Guide](https://naru08-creator.github.io/naru-pokopia-zukan/)
+- **How to Use:** [Guide article](https://narunikki.hatenablog.com/entry/pokopiazukan)
+- **Creator Portal:** [Yurutto My Pace ni Oshigoto-chu Portal](https://naru08-creator.github.io/narunikki_portal/)
+- **Related Articles:** [Pokémon Pokopia article list](https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3)
+
+## What This Tool Does
+
+- Search by Pokémon name or keywords
+- Filter data with selectable tags
+- Switch between AND / OR search
+- Switch between Japanese and English display
+- Load data from Google Sheets as CSV
+- Show results in a mobile-friendly card layout
+- Display announcements in a marquee-style news banner
+
+## Design Focus
+
+The main goal of this tool is to make a growing amount of data easy to search and understand on a smartphone.
+
+- Keep the search area fixed near the top for quick access
+- Show active filters as tags so the current search conditions are visible
+- Use card-style results on mobile instead of a dense table
+- Use lightweight CSS inspired by the bright sky, grass, and wooden signboard feeling of the game
+- Avoid heavy visual effects so the tool stays simple and fast on GitHub Pages
+
+## Data Flow
+
+```text
+Google Spreadsheet
+        -> CSV
+index.html
+        ->
+Search / Filter / Language Switch
+        ->
+GitHub Pages
+```
+
+## Tech
+
+- HTML
+- CSS
+- JavaScript
+- Google Sheets CSV
+- GitHub Pages
+
+## Notes
+
+This is an unofficial fan site for **Pokémon Pokopia**.  
+It is based on personally organized data and notes, not official data.
+
+## About the Creator
+
+I create small web tools and content using AI, UI design, and information organization.  
+My works and blog are collected on my portal site.
+
+👉 [Visit the creator portal](https://naru08-creator.github.io/narunikki_portal/)
