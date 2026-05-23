@@ -32,6 +32,17 @@ Googleスプレッドシートで整理したデータをもとに、ポケモ�
 - ゲームの明るい雰囲気に合わせて、空・草・木の看板をイメージした軽量なCSSデザインにする
 - 画像や重い演出に頼らず、GitHub Pages上で軽く動く構成にする
 
+## Why I Made This
+
+ゲーム内では「好きな環境」や「好きなもの」を検索しづらく、
+もっと探しやすい図鑑が欲しいと思ったことがきっかけです。
+
+そして、ポケモンたちに「すみごこち最高！」と言ってもらえる空間づくりを、
+もっと楽しめるようにしたいと思って制作しました。
+
+最初は個人用に作り始めたツールですが、
+少しずつ公開用のデータ図鑑として整えていっています。
+
 ## Data Flow
 
 ```text
@@ -51,6 +62,13 @@ GitHub Pages
 - JavaScript
 - Google Sheets CSV
 - GitHub Pages
+
+## Feedback
+
+使ってみた感想や、
+「こんなふうに使ったよ！」などあればぜひ教えてください。
+
+改善アイデアや不具合報告も歓迎です。
 
 ## Notes
 
@@ -99,6 +117,17 @@ The main goal of this tool is to make a growing amount of data easy to search an
 - Use lightweight CSS inspired by the bright sky, grass, and wooden signboard feeling of the game
 - Avoid heavy visual effects so the tool stays simple and fast on GitHub Pages
 
+## Why I Made This
+
+In Pokémon Pokopia, it can be difficult to search for information such as favorite environments and favorite items directly inside the game.
+
+I wanted a simpler and more comfortable way to organize that information.
+
+I also wanted to help players create spaces where Pokémon would happily say:
+“Perfect comfort!”
+
+This project started as a personal fan tool and gradually evolved into a public data guide for other players as well.
+
 ## Data Flow
 
 ```text
@@ -118,6 +147,16 @@ GitHub Pages
 - JavaScript
 - Google Sheets CSV
 - GitHub Pages
+
+## Feedback
+
+If you tried this tool, I’d love to hear how you used it.
+
+What worked well?
+What was difficult to use?
+What features would you like to see next?
+
+Feedback, bug reports, and ideas are always welcome.
 
 ## Notes
 
