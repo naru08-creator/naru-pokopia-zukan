@@ -1,3 +1,6 @@
+<img width="300" alt="スクリーンショット 2026-05-23 220812" src="https://github.com/user-attachments/assets/177debc6-bf46-4fc0-a5aa-759c59be20e1" />
+<img width="300" alt="スクリーンショット 2026-05-23 220827" src="https://github.com/user-attachments/assets/5cab4b85-9283-40e3-8b2e-f900c93ac3c1" />
+
 # ぽこあポケモンデータ図鑑
 
 **Pokémon Pokopia Data Guide**  
@@ -83,6 +86,8 @@ AIやUI設計を使って、情報を見やすく・使いやすく整理する�
 👉 [活動ポータルを見る](https://naru08-creator.github.io/narunikki_portal/)
 
 ---
+<img width="300" alt="ぽこあポケモンデータ図鑑 英語版" src="https://github.com/user-attachments/assets/bd8a644a-6016-456d-aa7e-c0803980e93c" />
+<img width="300" alt="ぽこあポケモンデータ図鑑 英語版 ボタン" src="https://github.com/user-attachments/assets/609ad2ad-fbc7-4de6-a912-0676b0e7b178" />
 
 # Pokémon Pokopia Data Guide
 
