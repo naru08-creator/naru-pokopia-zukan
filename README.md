@@ -1,6 +1,8 @@
 <img width="300" alt="ぽこあポケモンデータ図鑑 日本語版" src="https://github.com/user-attachments/assets/177debc6-bf46-4fc0-a5aa-759c59be20e1" />
 <img width="300" alt="ぽこあポケモンデータ図鑑 日本語版 ボタン" src="https://github.com/user-attachments/assets/5cab4b85-9283-40e3-8b2e-f900c93ac3c1" />
+
 スマホでも検索しやすいように、カード型UIで設計しています。
+
 # ぽこあポケモンデータ図鑑
 
 ![Tool](https://img.shields.io/badge/Tool-PokéDex%20Guide-pink)
@@ -10,7 +12,7 @@
 ![Mobile](https://img.shields.io/badge/Mobile-Friendly-ffb6c1)
 
 **Pokémon Pokopia Data Guide**  
-ポケモンを「好きな環境・アイテム・性格」から検索できる非公式データ図鑑です（スマホ対応）
+ポケモンを「好きな環境・好きなもの・得意なこと」から検索できる非公式データ図鑑です（スマホ対応）
 
 Googleスプレッドシートで整理したデータをもとに、ポケモンの「得意なこと」「好きな環境」「好きなもの」「ちらかすアイテム」から検索・絞り込みできるWebツールとして公開しています。
 
@@ -95,10 +97,12 @@ AIとUI設計を活用し、情報を見やすく整理する個人クリエイ�
 ---
 <img width="300" alt="ぽこあポケモンデータ図鑑 英語版" src="https://github.com/user-attachments/assets/bd8a644a-6016-456d-aa7e-c0803980e93c" />
 <img width="300" alt="ぽこあポケモンデータ図鑑 英語版 ボタン" src="https://github.com/user-attachments/assets/609ad2ad-fbc7-4de6-a912-0676b0e7b178" />
+
 The design uses a clean card layout to make browsing easy on mobile devices.
+
 # Pokémon Pokopia Data Guide
 
-Pokémon in this unofficial guide can be searched by environment, items, and personality traits.
+An unofficial Pokémon data guide that lets you search Pokémon by preferred environment, favorite things, and abilities (mobile-friendly).
 
 This tool turns data organized in Google Sheets into a lightweight web app where users can search and filter Pokémon by specialties, ideal habitats, favorite things, and littered items.
 
