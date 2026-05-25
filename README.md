@@ -3,6 +3,12 @@
 
 # ぽこあポケモンデータ図鑑
 
+![Tool](https://img.shields.io/badge/Tool-PokéDex%20Guide-pink)
+![Platform](https://img.shields.io/badge/Platform-GitHub%20Pages-lightgrey)
+![Data](https://img.shields.io/badge/Data-Google%20Sheets-blue)
+![Type](https://img.shields.io/badge/Type-Fan%20Project-green)
+![Mobile](https://img.shields.io/badge/Mobile-Friendly-ffb6c1)
+
 **Pokémon Pokopia Data Guide**  
 スマホで使いやすい、ぽこあポケモン向けの非公式データ図鑑です。
 
