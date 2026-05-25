@@ -1,6 +1,6 @@
-<img width="300" alt="スクリーンショット 2026-05-23 220812" src="https://github.com/user-attachments/assets/177debc6-bf46-4fc0-a5aa-759c59be20e1" />
-<img width="300" alt="スクリーンショット 2026-05-23 220827" src="https://github.com/user-attachments/assets/5cab4b85-9283-40e3-8b2e-f900c93ac3c1" />
-
+<img width="300" alt="ぽこあポケモンデータ図鑑 日本語版" src="https://github.com/user-attachments/assets/177debc6-bf46-4fc0-a5aa-759c59be20e1" />
+<img width="300" alt="ぽこあポケモンデータ図鑑 日本語版 ボタン" src="https://github.com/user-attachments/assets/5cab4b85-9283-40e3-8b2e-f900c93ac3c1" />
+スマホでも検索しやすいように、カード型UIで設計しています。
 # ぽこあポケモンデータ図鑑
 
 ![Tool](https://img.shields.io/badge/Tool-PokéDex%20Guide-pink)
@@ -10,15 +10,15 @@
 ![Mobile](https://img.shields.io/badge/Mobile-Friendly-ffb6c1)
 
 **Pokémon Pokopia Data Guide**  
-スマホで使いやすい、ぽこあポケモン向けの非公式データ図鑑です。
+ポケモンを「好きな環境・アイテム・性格」から検索できる非公式データ図鑑です（スマホ対応）
 
 Googleスプレッドシートで整理したデータをもとに、ポケモンの「得意なこと」「好きな環境」「好きなもの」「ちらかすアイテム」から検索・絞り込みできるWebツールとして公開しています。
 
 ## Links
 
 - **実際に使う:** [ぽこあポケモンデータ図鑑](https://naru08-creator.github.io/naru-pokopia-zukan/)
-- **使い方・解説:** [このツールの解説記事](https://narunikki.hatenablog.com/entry/pokopiazukan)
 - **活動ポータル:** [ゆるっとマイペースに推しごとチュウ ポータル](https://naru08-creator.github.io/narunikki_portal/)
+- **使い方・解説:** [このツールの解説記事](https://narunikki.hatenablog.com/entry/pokopiazukan)
 - **関連記事一覧:** [ぽこあポケモン記事一覧](https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3)
 
 ## What This Tool Does
@@ -86,7 +86,8 @@ GitHub Pages
 
 ## About the Creator
 
-AIやUI設計を使って、情報を見やすく・使いやすく整理する個人クリエイターとして活動しています。  
+AIとUI設計を活用し、情報を見やすく整理する個人クリエイターとして活動しています。
+主にWebツールやデータ可視化系の個人プロジェクトを制作しています。  
 制作物やブログはポータルにまとめています。
 
 👉 [活動ポータルを見る](https://naru08-creator.github.io/narunikki_portal/)
@@ -94,18 +95,18 @@ AIやUI設計を使って、情報を見やすく・使いやすく整理する�
 ---
 <img width="300" alt="ぽこあポケモンデータ図鑑 英語版" src="https://github.com/user-attachments/assets/bd8a644a-6016-456d-aa7e-c0803980e93c" />
 <img width="300" alt="ぽこあポケモンデータ図鑑 英語版 ボタン" src="https://github.com/user-attachments/assets/609ad2ad-fbc7-4de6-a912-0676b0e7b178" />
-
+The design uses a clean card layout to make browsing easy on mobile devices.
 # Pokémon Pokopia Data Guide
 
-An unofficial data guide for **Pokémon Pokopia**, designed primarily for comfortable use on smartphones.
+Pokémon in this unofficial guide can be searched by environment, items, and personality traits.
 
 This tool turns data organized in Google Sheets into a lightweight web app where users can search and filter Pokémon by specialties, ideal habitats, favorite things, and littered items.
 
 ## Links
 
 - **Live Demo:** [Pokémon Pokopia Data Guide](https://naru08-creator.github.io/naru-pokopia-zukan/)
-- **How to Use:** [Guide article](https://narunikki.hatenablog.com/entry/pokopiazukan)
 - **Creator Portal:** [Yurutto My Pace ni Oshigoto-chu Portal](https://naru08-creator.github.io/narunikki_portal/)
+- **How to Use:** [Guide article](https://narunikki.hatenablog.com/entry/pokopiazukan)
 - **Related Articles:** [Pokémon Pokopia article list](https://narunikki.hatenablog.com/archive/category/%E3%81%BD%E3%81%93%E3%81%82%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3)
 
 ## What This Tool Does
@@ -177,6 +178,7 @@ It is based on personally organized data and notes, not official data.
 ## About the Creator
 
 I create small web tools and content using AI, UI design, and information organization.  
+My work focuses on personal web tools and data visualization projects.
 My works and blog are collected on my portal site.
 
 👉 [Visit the creator portal](https://naru08-creator.github.io/narunikki_portal/)
