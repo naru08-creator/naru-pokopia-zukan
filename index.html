@@ -169,6 +169,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   100% { transform: translate3d(var(--news-end, -50%), 0, 0); }
 }
 
+.ad-pc {
+  display: block;
+}
+
+.ad-sp {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .ad-pc {
+    display: none;
+  }
+
+  .ad-sp {
+    display: block;
+  }
+}
   </style>
 </head>
 <body>
@@ -241,7 +258,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span id="portalLinkText">🐾 ポータル（案内所）はこちら</span>
   </a>
 </div>
+<div class="ad-pc">
+  <!-- PC用 728×90 -->
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/1832e24bfe10dbe636521921d295ee1a"></script>
+<!-- admax -->
+</div>
 
+<div class="ad-sp">
+  <!-- スマホ用 320×100 -->
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/2fea3d03c134405843ee2063790f5a2d"></script>
+<!-- admax -->
+</div>
 <footer>
   <p id="footerNotice">※本サイトは「ぽこあポケモン」の非公式ファンサイトです。</p>
   <p id="footerCredit">© ゆるっとマイペースに推しごとチュウ</p>
